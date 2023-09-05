@@ -84,10 +84,10 @@ class Preprocessor:
 if __name__ == "__main__":
 
     # source_lang_data
-    source_lang_data: str = "../../data/raw/OpenSubtitles.ar-en-small.ar.txt"
+    source_lang_data: str = "../../data/raw/OpenSubtitles.ar-en-small.en.txt"
 
     # target_lang_data
-    target_lang_data: str = "../../data/raw/OpenSubtitles.ar-en-small.en.txt"
+    target_lang_data: str = "../../data/raw/OpenSubtitles.ar-en-small.ar.txt"
 
     # output_json_file
     output_json_file: str = "../../data/processed/data.json"
