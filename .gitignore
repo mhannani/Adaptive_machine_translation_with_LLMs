@@ -1,0 +1,55 @@
+# Byte-compiled / optimized Python files
+__pycache__/
+*.pyc
+*.pyo
+__pycache__
+
+# Python virtual environments
+venv/
+env/
+*.env
+
+# Dependency directories (e.g., pipenv, pip-tools, etc.)
+/.venv/
+/.env/
+.idea/
+
+# Compiled source
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Cache and logs
+*.log
+*.cache
+log/
+logs/
+tmp/
+temp/
+
+# Editor-specific files
+.vscode/
+*.swp
+*.swo
+*.swn
+*.swm
+*.bak
+*.bak2
+*.tmp
+
+# macOS
+.DS_Store
+.AppleDouble
+.AppleDesktop
+.AppleDB
+.AppleDesktopNetwork
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Jupyter Notebook
+.ipynb_checkpoints/
