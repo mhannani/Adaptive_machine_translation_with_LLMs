@@ -66,12 +66,18 @@ if __name__ == "__main__":
     # gpt instance
     gpt = GPT(openai_api_key)
 
+    # source_lang
+    source_lang = "English"
+
+    # target_lang
+    target_lang = "Arabic"
+
     # source sentence
     source_sentence = "The weather is the last truly wild thing on Earth."
 
     # messages
     messages = [
-        {"role": "user", "content": "Translate the following English sentence to Arabic:"},
+        {"role": "user", "content": f"Translate the following {source_lang} sentence to {target_lang}"},
         {"role": "assistant", "content": source_sentence},
         {"role": "user", "content": "Arabic:"},
     ]
