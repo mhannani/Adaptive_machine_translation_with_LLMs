@@ -2,16 +2,7 @@ import os
 import openai
 from typing import List
 from dotenv import load_dotenv
-import codecs
 import datetime
-
-# Load environment variables from .env file
-load_dotenv()
-
-# OpenAI API key
-openai_api_key = os.getenv("OPENAI_API_KEY")
-
-# setting
 
 
 class GPT:
@@ -19,11 +10,13 @@ class GPT:
     GPT as translator model
     """
 
-    def __init__(self, model: str = 'gpt-3.5-turbo', temperature: float = 0.0, max_tokens: int = 30) -> None:
+    def __init__(self, openai_api_key: str, model: str = 'gpt-3.5-turbo', temperature: float = 0.0, max_tokens: int = 30) -> None:
         """
         Class constructor for GPT model as API.
 
-        param model str
+        :param openai_api_key str
+            OpenAI API key
+        :param model str
             Model name
         :param temperature float
             Temperature
@@ -35,6 +28,9 @@ class GPT:
         return None
         """
 
+        # openai_api_key
+        self.openai_api_key = openai_api_key
+
         # model name
         self.model = model
 
@@ -45,7 +41,7 @@ class GPT:
         self.max_tokens = max_tokens
 
         # setting openai api key
-        openai.api_key = openai_api_key
+        openai.api_key = self.openai_api_key
 
     def translate(self, messages: List = [{"role": "user", "content": "Hi!"}]):
         """
@@ -61,9 +57,14 @@ class GPT:
 
 
 if __name__ == "__main__":
+    # Load environment variables from .env file
+    load_dotenv()
+
+    # OpenAI API key
+    openai_api_key = os.getenv("OPENAI_API_KEY")
 
     # gpt instance
-    gpt = GPT()
+    gpt = GPT(openai_api_key)
 
     # source sentence
     source_sentence = "The weather is the last truly wild thing on Earth."
