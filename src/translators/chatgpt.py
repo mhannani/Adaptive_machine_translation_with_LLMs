@@ -29,21 +29,21 @@ class GPT:
         """
 
         # openai_api_key
-        self.openai_api_key = openai_api_key
+        self.openai_api_key: str = openai_api_key
 
         # model name
-        self.model = model
+        self.model: str = model
 
         # temperator
-        self.temperature = temperature
+        self.temperature: float = temperature
 
         # max_tokens
-        self.max_tokens = max_tokens
+        self.max_tokens: int = max_tokens
 
         # setting openai api key
         openai.api_key = self.openai_api_key
 
-    def translate(self, messages: List = [{"role": "user", "content": "Hi!"}]):
+    def translate(self, messages: List = [{"role": "user", "content": "Hi!"}]) -> dict:
         """
         Make the translation job
 
@@ -63,44 +63,44 @@ if __name__ == "__main__":
     load_dotenv()
 
     # OpenAI API key
-    openai_api_key = os.getenv("OPENAI_API_KEY")
+    openai_api_key: str = os.getenv("OPENAI_API_KEY")
 
     # gpt instance
-    gpt = GPT(openai_api_key)
+    gpt: GPT = GPT(openai_api_key)
 
     # source_lang
-    source_lang = "English"
+    source_lang: str = "English"
 
     # target_lang
-    target_lang = "Arabic"
+    target_lang: str = "Arabic"
 
     # source sentence
-    source_sentence = "The weather is the last truly wild thing on Earth."
+    source_sentence: str = "The weather is the last truly wild thing on Earth."
 
     # messages
-    messages = [
+    messages: List = [
         {"role": "user", "content": f"Translate the following {source_lang} sentence to {target_lang}"},
         {"role": "assistant", "content": source_sentence},
         {"role": "user", "content": "Arabic:"},
     ]
 
     # invoke model
-    output = gpt.translate(messages)
+    output: dict = gpt.translate(messages)
 
     # Get the current date and time
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    timestamp: str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
     # Specify the directory to save the file
-    output_directory = "../../data/output_translations/"
+    output_directory: str = "../../data/output_translations/"
 
     # Create the output directory if it doesn't exist
     os.makedirs(output_directory, exist_ok=True)
 
     # Define the filename with the timestamp
-    filename = os.path.join(output_directory, f"translation_{timestamp}.txt")
+    filename: str = os.path.join(output_directory, f"translation_{timestamp}.txt")
 
     # translated text
-    translated_text = output["choices"][0]["message"]["content"] # الطقس هو آخر شيء بريء حقا على وجه الأر
+    translated_text: str = output["choices"][0]["message"]["content"] # الطقس هو آخر شيء بريء حقا على وجه الأر
 
     # Write the translated text to the file
     with open(filename, "w", encoding="utf-8") as file:
