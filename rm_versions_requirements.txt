@@ -1,0 +1,15 @@
+autopep8
+dataset
+datasets
+fqdn
+isoduration
+jsonpointer
+jupyterlab
+nltk
+openai
+pip
+pipdeptree
+python-dotenv
+transformers
+uri-template
+webcolors
