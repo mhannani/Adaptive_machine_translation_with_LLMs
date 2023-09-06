@@ -120,13 +120,14 @@ class Fuzzy:
             faiss.write_index(self.index, self.faiss_path)
 
 
-    def get_top_k(self, sentence: str, k: int = 5) -> List[dict]:
+    def get_top_k(self, sentence: str, distance_threshold: float = 0.8, k: int = 5) -> List[dict]:
         """
         Get top_k fuzzy matches
 
         :param sentence str
             Sentence to find its fuzzy matches
-
+        :param distance_threshold float
+            The distance threshold between query sentence and sentences in the faiss index
         :param k int
             Number of fuzzy matches
 
@@ -155,6 +156,9 @@ class Fuzzy:
         filtered_distances = distances[non_zero_indices]
         filtered_indices = indices[non_zero_indices]
 
-        print(filtered_distances, filtered_indices)
+        # Filter results based on the threshold
+        similar_indices = filtered_indices[filtered_distances < distance_threshold]
+        similar_distances = filtered_distances[filtered_distances < distance_threshold]
+
         # Retrieve the similar sentences and additional data from the dataset
-        return [{"key": idx, "score": score, **self.json_data[idx]} for idx, score in zip(filtered_indices, filtered_distances)]
+        return [{"key": idx, "score": score, **self.json_data[idx]} for idx, score in zip(similar_indices, similar_distances)]

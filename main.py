@@ -32,7 +32,7 @@ if __name__ == "__main__":
     fuzzy = Fuzzy(config, json_data)
 
     # source sentence
-    source_sentence = "We can't predict it and we can't control it."
+    source_sentence = "I'm going to take a ride into the cold heart of winter."
 
     # k fuzzy matches
     k_fuzzy_matches = fuzzy.get_top_k(sentence = source_sentence, k = 5)

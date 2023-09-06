@@ -10,7 +10,7 @@ class GPT:
     GPT as translator model
     """
 
-    def __init__(self, openai_api_key: str, model: str = 'gpt-3.5-turbo', temperature: float = 0.0, max_tokens: int = 30) -> None:
+    def __init__(self, openai_api_key: str, model: str = 'gpt-3.5-turbo', temperature: float = 0.0, max_tokens: int = 50) -> None:
         """
         Class constructor for GPT model as API.
 
@@ -53,7 +53,15 @@ class GPT:
         :return dict
         """
 
-        return openai.ChatCompletion.create(model=self.model, temperature=self.temperature, max_tokens=self.max_tokens, messages=messages)
+        # call the openAI API
+        response = openai.ChatCompletion.create(model=self.model, temperature=self.temperature, max_tokens=self.max_tokens, messages=messages)
+
+        # return only text
+        text = response["choices"][0]["message"]["content"]
+
+        # clean text
+        return ' '.join([word for word in text.split() if word.lower() != "arabic"])
+
 
 
 # For testing purposes

@@ -23,7 +23,7 @@ if __name__ == "__main__":
     fuzzy = Fuzzy(config, json_data)
 
     # 5-fuzzy matches
-    k_fuzzy_matches = fuzzy.get_top_k(sentence="The weather is the last truly wild thing on Earth.", k = 5)
+    k_fuzzy_matches = fuzzy.get_top_k(sentence="what is the weather ?", k = 5)
 
     # print 5 fuzzy matches
     print("k_fuzzy_matches: ", k_fuzzy_matches)
