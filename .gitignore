@@ -46,6 +46,7 @@ temp/
 .AppleDesktop
 .AppleDB
 .AppleDesktopNetwork
+.chainlit/
 
 # Windows
 Thumbs.db
