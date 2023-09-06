@@ -1,0 +1,12 @@
+[data]
+root = "./data"
+raw = "./data/raw"
+processed = "./data/processed"
+index = "./data/index"
+source_language = "OpenSubtitles.ar-en-small.en.txt"
+larget_language = "OpenSubtitles.ar-en-small.ar.txt"
+json_output = "data.json"
+faiss_path = "index/faiss_index.index"
+
+[fuzzy]
+embedding_model_name = "sentence-transformers/all-MiniLM-L6-v2"

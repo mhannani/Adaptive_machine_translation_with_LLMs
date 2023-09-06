@@ -12,10 +12,12 @@ class Fuzzy:
     Fuzzing matching
     """
 
-    def __init__(self, json_data: List[dict], embedding_model_name: str = "sentence-transformers/all-MiniLM-L6-v2",
-                 save_faiss_to_disk = True, faiss_path: str = "../../data/index/faiss_index.index", faiss_from_disk = True) -> None:
+    def __init__(self, config: dict, json_data: List[dict], save_faiss_to_disk = True, faiss_from_disk = True) -> None:
         """
         Constructor for Fuzzy matching
+
+        :param config dict
+            Configuration object
 
         :param json_data List[dict]
             List of data as dict
@@ -23,11 +25,14 @@ class Fuzzy:
         :return None
         """
         
+        # config
+        self.config = config
+
         # json_data
         self.json_data = json_data
         
         # embedding_model_name
-        self.embedding_model_name = embedding_model_name
+        self.embedding_model_name = config['fuzzy']['embedding_model_name']
 
         # Create a cache for embeddings
         self.embedding_cache = {}
@@ -36,7 +41,7 @@ class Fuzzy:
         self.save_faiss_to_disk = save_faiss_to_disk
 
         # faiss_path
-        self.faiss_path = faiss_path
+        self.faiss_path = os.path.join(self.config['data']['root'], self.config['data']['faiss_path'])
 
         # faiss_from_disk
         self.faiss_from_disk = faiss_from_disk
@@ -115,22 +120,18 @@ class Fuzzy:
             faiss.write_index(self.index, self.faiss_path)
 
 
-    def get_top_k(self, sentence: str, threshold: float = 0.4, k: int = 5) -> List:
+    def get_top_k(self, sentence: str, k: int = 5) -> List[dict]:
         """
         Get top_k fuzzy matches
 
         :param sentence str
             Sentence to find its fuzzy matches
 
-        :param threshold float
-            Threshold of the cosine similarity computed between the two sentences
         :param k int
             Number of fuzzy matches
 
         :return List
         """
-        # List of fuzzy matches
-        matches = []
 
         # Embed the input sentence
         input_embedding = self.embedding_model.encode(sentence, convert_to_tensor=True).cpu().numpy()
@@ -154,26 +155,6 @@ class Fuzzy:
         filtered_distances = distances[non_zero_indices]
         filtered_indices = indices[non_zero_indices]
 
+        print(filtered_distances, filtered_indices)
         # Retrieve the similar sentences and additional data from the dataset
-        similar_data = [{"key": idx, **self.json_data[idx]} for idx in filtered_indices]
-
-        print("similar_data: ", similar_data)
-
-if __name__ == "__main__":
-
-    import json
-
-    # json data
-    json_data_filepath = "../../data/processed/data.json"
-
-    # Open the JSON file in read mode
-    with open(json_data_filepath, 'r') as json_file:
-        # Load JSON data from the file
-        json_data = json.load(json_file)
-
-    # Fuzzy instance
-    fuzzy = Fuzzy(json_data)
-
-    # # matchesthe
-    fuzzy.get_top_k(
-        sentence="The weather is the last truly wild thing on Earth.")
+        return [{"key": idx, "score": score, **self.json_data[idx]} for idx, score in zip(filtered_indices, filtered_distances)]
