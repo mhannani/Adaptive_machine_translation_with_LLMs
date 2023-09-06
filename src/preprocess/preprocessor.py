@@ -35,9 +35,12 @@ class Preprocessor:
         self.output_json_file: str = output_json_file
 
 
-    def fire(self) -> None:
+    def fire(self, tokenize = False) -> None:
         """
         Fire preprocessing task
+
+        :param tokenize bool
+            Whether to store the tokenized sentence along with the sentence itself or not
 
         :return None
 
@@ -52,25 +55,33 @@ class Preprocessor:
 
         # Read data from source and target language files
         with open(self.source_lang_data, 'r', encoding='utf-8') as source_file, open(self.target_lang_data, 'r', encoding='utf-8') as target_file:
-            for source_sentence, target_sentence in zip(source_file, target_file):
+            for i, (source_sentence, target_sentence) in enumerate(zip(source_file, target_file)):
                 # Remove leading/trailing whitespace and newline characters
                 source_sentence: str = source_sentence.strip()
                 target_sentence: str = target_sentence.strip()
 
-                # Tokenize the source langauge sentence
-                en_tokenized: List = word_tokenize(source_sentence)
+                if tokenize:
+                    # Tokenize the source langauge sentence
+                    en_tokenized: List = word_tokenize(source_sentence)
 
-                # Tokenize the source langauge sentence
-                ar_tokenized: List = word_tokenize(target_sentence)
+                    # Tokenize the source langauge sentence
+                    ar_tokenized: List = word_tokenize(target_sentence)
 
-                # Create a JSON entry
-                entry: dict = {
-                    "key": len(json_data) + 1,
-                    "source_sentence": source_sentence,
-                    "en_tokenized": en_tokenized,
-                    "target_sentence": target_sentence,
-                    "ar_tokenized": ar_tokenized
-                }
+                    # Create a JSON entry
+                    entry: dict = {
+                        "key": i,
+                        "source_sentence": source_sentence,
+                        "en_tokenizd": en_tokenized,
+                        "target_sentence": target_sentence,
+                        "ar_tokenized": ar_tokenized
+                    }
+                else:
+                    # Create a JSON entry
+                    entry: dict = {
+                        "key": i,
+                        "source_sentence": source_sentence,
+                        "target_sentence": target_sentence,
+                    }
 
                 # Append the entry to the JSON data list
                 json_data.append(entry)
