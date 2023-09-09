@@ -152,13 +152,21 @@ class Fuzzy:
         # Find indices where distances are not equal to 0
         non_zero_indices = np.where(distances != 0)[0]
 
+        # actual sentence - dissimilarity = 0
+        actual_sentence_index = np.where(distances == 0)[0]
+        print("actual_sentence_index: ", actual_sentence_index)
+
         # Filter distances and indices to remove entries with distance = 0
         filtered_distances = distances[non_zero_indices]
         filtered_indices = indices[non_zero_indices]
+
+        # sentence itself
+        sentence_itself_distance = distances[actual_sentence_index]
+        sentence_itself_indices = indices[actual_sentence_index]
 
         # Filter results based on the threshold
         similar_indices = filtered_indices[filtered_distances < distance_threshold]
         similar_distances = filtered_distances[filtered_distances < distance_threshold]
 
         # Retrieve the similar sentences and additional data from the dataset
-        return [{"key": idx, "score": score, **self.json_data[idx]} for idx, score in zip(similar_indices, similar_distances)]
+        return [{"key": idx, "score": score, **self.json_data[idx]} for idx, score in zip(sentence_itself_indices, sentence_itself_distance)], [{"key": idx, "score": score, **self.json_data[idx]} for idx, score in zip(similar_indices, similar_distances)]

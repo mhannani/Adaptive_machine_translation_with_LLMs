@@ -35,16 +35,17 @@ if __name__ == "__main__":
     source_sentence = "I'm going to take a ride into the cold heart of winter."
 
     # k fuzzy matches
-    k_fuzzy_matches = fuzzy.get_top_k(sentence = source_sentence, k = 5)
+    sentence_itself, k_fuzzy_matches = fuzzy.get_top_k(sentence = source_sentence, k = 5)
 
     # creating prompt object
     prompt = Prompt(source_sentence, k_fuzzy_matches)
 
-    # gpt prompt
+    # # gpt prompt
     gpt_prompt = prompt()
     
     # gpt instance
     gpt: GPT = GPT(openai_api_key)
 
     output = gpt.translate(gpt_prompt)
+
     print("output: ", output) # لا يمكننا التنبؤ به ولا يمكننا التحكم فيه.

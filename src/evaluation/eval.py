@@ -1,7 +1,7 @@
 import sacrebleu
 
 
-class Evaluate:
+class Evaluator:
     """
     Evaluation utilities
     """
@@ -25,6 +25,11 @@ class Evaluate:
         # Predicted sentence
         self.predicted_sentence: str = predicted_sentence
     
+    def _bleu_score(self) -> float:
+        """
+        BLEU score
+        """
+
     def bleu_score(self) -> float:
         """
         Calculates the BLEU score for the given sentences
@@ -37,18 +42,65 @@ class Evaluate:
         blue_score = sacrebleu.corpus_bleu(self.predicted_sentence, [[self.reference_sentence]])
 
         return blue_score.score
+    
+    def chrf_score(self) -> float:
+        """
+        Calculates the CHRF score for the given sentences
 
+        :Return float
+            The CHRT score value
+        """
+
+        # Calculate the BLEU score
+        chrf_score = sacrebleu.corpus_chrf(self.predicted_sentence, [[self.reference_sentence]])
+
+        return chrf_score.score
+
+    def ter_score(self) -> float:
+        """
+        Calculates the TER score for the given sentences
+
+        :Return float
+            The TER score value
+        """
+
+        # Calculate the BLEU score
+        ter_score = sacrebleu.corpus_ter(self.predicted_sentence, [[self.reference_sentence]])
+
+        return ter_score.score
+    
+    def all_score(self) -> dict:
+        """
+        Computes all score and return dict of their values
+        """
+
+        # BLEU score
+        blue_score = self.bleu_score()
+
+        # CHRF score
+        chrf_score = self.chrf_score()
+
+        # TER score
+        ter_score = self.ter_score()
+
+        return {
+            'BLEU': round(blue_score, 2),
+            'CHRF': round(chrf_score, 2),
+            'TER': round(ter_score, 2)
+        }
 
 if __name__ == "__main__":
 
     # reference sentence
-    reference_sentence = ["Hello, how are you ?"]
+    reference_sentence = "Hello, how are you ?"
 
     # predicted sentence
-    predicted_sentence = ["Hi, how are you ?"]
+    predicted_sentence = ["Hell, how are you ?"]
 
     # Evaluate class instance
-    evaluate = Evaluate(reference_sentence[0], predicted_sentence)
+    evaluator = Evaluator(reference_sentence, predicted_sentence)
 
     # BLEU score
-    evaluate.bleu_score()
+    all_scores = evaluator.all_score()
+
+    print("all_scores: ", all_scores)
