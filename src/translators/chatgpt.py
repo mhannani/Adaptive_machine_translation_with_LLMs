@@ -3,6 +3,8 @@ import openai
 from typing import List
 from dotenv import load_dotenv
 import datetime
+from langchain.schema.messages import AIMessage
+from langchain import ChatOpenAI
 
 
 class GPT:
@@ -10,10 +12,12 @@ class GPT:
     GPT as translator model
     """
 
-    def __init__(self, openai_api_key: str, model: str = 'gpt-3.5-turbo', temperature: float = 0.0, max_tokens: int = 50) -> None:
+    def __init__(self, config, openai_api_key: str, model: str = 'gpt-3.5-turbo', temperature: float = 0.0, max_tokens: int = 50) -> None:
         """
         Class constructor for GPT model as API.
 
+        :param config
+            Configuration object
         :param openai_api_key str
             OpenAI API key
         :param model str
@@ -27,6 +31,9 @@ class GPT:
 
         return None
         """
+
+        # configuration object
+        self.config = config
 
         # openai_api_key
         self.openai_api_key: str = openai_api_key
@@ -43,7 +50,11 @@ class GPT:
         # setting openai api key
         openai.api_key = self.openai_api_key
 
-    def translate(self, messages: List = [{"role": "user", "content": "Hi!"}]) -> dict:
+        # openAI API key
+        self.openai_api_key = self.openai_api_key
+
+
+    def translate_legacy(self, messages: List = [{"role": "user", "content": "Hi!"}]) -> dict:
         """
         Make the translation job
 
@@ -62,19 +73,37 @@ class GPT:
         # clean text
         return ' '.join([word for word in text.split() if word.lower() != "arabic"])
 
+    def translate(self, chat_prompt: List) -> AIMessage:
+        """
+        Translate sentence using Chain-of-thoughts with Langchain
+
+        :param messages List
+            List of messages to the LLM
+
+        :return
+        """
+
+        chat_llm = ChatOpenAI(openai_api_key = self.openai_api_key)
+
+        llm_output = chat_llm.predict_messages(chat_prompt)
+
+        return llm_output
 
 
 # For testing purposes
 if __name__ == "__main__":
 
-    # Load environment variables from .env file
-    load_dotenv()
-
     # OpenAI API key
     openai_api_key: str = os.getenv("OPENAI_API_KEY")
 
+    # configuration object
+    config = {"languages": {
+        "source_language": "English",
+        "target_language": "Arabic"
+    }}
+    
     # gpt instance
-    gpt: GPT = GPT(openai_api_key)
+    gpt: GPT = GPT(config, openai_api_key)
 
     # source_lang
     source_lang: str = "English"

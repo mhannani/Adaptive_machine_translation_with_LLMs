@@ -36,7 +36,7 @@ with open(json_data_filepath, 'r') as json_file:
 fuzzy = Fuzzy(config, json_data)
 
 # gpt instance
-gpt: GPT = GPT(openai_api_key)
+gpt: GPT = GPT(config, openai_api_key)
 
 # top_k
 top_k = 5
@@ -83,7 +83,7 @@ async def main(message: str):
     await cl.Message(author="Prompt", content=f"{gpt_prompt}", indent=2).send()
 
     # call the GPT API
-    predicted_sentence = gpt.translate(gpt_prompt)
+    predicted_sentence = gpt.translate_legacy(gpt_prompt)
 
     # cleaned predicted sentence
     cleaned_predicted_sentence = clean(predicted_sentence)

@@ -1,4 +1,5 @@
 from typing import List
+from langchain.prompts.chat import SystemMessagePromptTemplate, HumanMessagePromptTemplate, ChatPromptTemplate
 
 
 class Prompt:
@@ -69,4 +70,29 @@ class Prompt:
 
         # return the constructed prompt
         return prompt
+
+    def create(self, source_language: str = "English", target_language: str = "Arabic") -> str:
+        """
+        Create a prompt given source and target languages
+
+        :param source_language str
+            Source language
+        :param target_language str
+            Target language
+        
+        :return str
+        """
+        
+        # source language
+        source_language = self.config['languages']['source_language']
+
+        # target language
+        target_language = self.config['languages']['target_language']
+
+        # assisstant template
+        template = "Please translate from {source_language} to {target_language}."
+
+        # create system message
+        system_message_prompt = SystemMessagePromptTemplate.from_template(template)
+
 
