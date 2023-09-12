@@ -75,21 +75,18 @@ async def main(message: str):
 
     # Step 2: Creating LLM prompt
     # creating prompt object
-    prompt = Prompt(message, k_fuzzy_matches)
+    prompt = Prompt(config, k_fuzzy_matches)
 
     # gpt prompt
-    gpt_prompt = prompt()
+    gpt_prompt = prompt.create(message)
 
     await cl.Message(author="Prompt", content=f"{gpt_prompt}", indent=2).send()
 
     # call the GPT API
-    predicted_sentence = gpt.translate_legacy(gpt_prompt)
-
-    # cleaned predicted sentence
-    cleaned_predicted_sentence = clean(predicted_sentence)
+    predicted_sentence = gpt.translate(gpt_prompt)
 
     # send back the final answer
-    await cl.Message(author="Translator", content=f"{cleaned_predicted_sentence}").send()
+    await cl.Message(author="Translator", content=f"{predicted_sentence}").send()
 
     try:
         # reference sentence
@@ -102,7 +99,6 @@ async def main(message: str):
     
 
     if reference_sentence is not None:
-        print("reference_sentence, [predicted_sentence]: ", reference_sentence, [predicted_sentence])
         # evaluation
         evaluator = Evaluator(reference_sentence, [predicted_sentence])
 

@@ -88,19 +88,3 @@ class Evaluator:
             'CHRF': round(chrf_score, 2),
             'TER': round(ter_score, 2)
         }
-
-if __name__ == "__main__":
-
-    # reference sentence
-    reference_sentence = "Hello, how are you ?"
-
-    # predicted sentence
-    predicted_sentence = ["Hell, how are you ?"]
-
-    # Evaluate class instance
-    evaluator = Evaluator(reference_sentence, predicted_sentence)
-
-    # BLEU score
-    all_scores = evaluator.all_score()
-
-    print("all_scores: ", all_scores)

@@ -8,7 +8,7 @@ larget_language = "OpenSubtitles.ar-en-small.ar.txt"
 json_output = "data.json"
 faiss_path = "index/faiss_index.index"
 
-[languages]
+[prompting]
 source_language = "English"
 target_language = "Arabic"
 

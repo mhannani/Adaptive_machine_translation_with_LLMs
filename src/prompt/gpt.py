@@ -1,5 +1,5 @@
 from typing import List
-from langchain.prompts.chat import SystemMessagePromptTemplate, HumanMessagePromptTemplate, ChatPromptTemplate
+from langchain.prompts.chat import SystemMessagePromptTemplate, HumanMessagePromptTemplate, ChatPromptTemplate, AIMessagePromptTemplate
 
 
 class Prompt:
@@ -7,92 +7,96 @@ class Prompt:
     LLM Prompt construction class
     """
 
-    def __init__(self, source_sentence: str, fuzzy_matches: List) -> None:
+    def __init__(self, config: object, fuzzy_matches: List) -> None:
         """
         Prompt class constructor
 
         :param source_sentence str
             The source sentence to translate
-        
+
         :param fuzzy_matches List
             List of fuzzy matches
 
         :return None
         """
-        
-        # source_sentence
-        self.source_sentence: str = source_sentence
+
+        # configuration object
+        self.config = config
+
+        # source language
+        self.source_language = self.config['prompting']['source_language']
+
+        # target language
+        self.target_language = self.config['prompting']['target_language']
 
         # fuzzy_match
         self.fuzzy_matches: List = fuzzy_matches
-    
-    def __call__(self, source_language: str = "English", target_language: str = "Arabic") -> str:
-        """
-        Construct a promp given sentence, and fuzzy matches
 
-        :param source_language str
-            The source language
-        
-        :param target_language str
-            The target langauge
+    def create(self, request_sentence: str) -> str:
+        """
+        Create a prompt given source and target languages
+
+        :param request_sentence str
+            Request sentence
 
         :return str
         """
 
-        # Initialize the prompt list with a system message
-        prompt = [{"role": "system", "content": f"Act like a good translator from {source_language} to {target_language}"}]
+        # assisstant template
+        template = "Please provide high-quality {source_language} text for translation into {target_language}."
+
+        # create system message
+        system_message_prompt = SystemMessagePromptTemplate.from_template(
+            template)
+
+        # chat prompt template
+        chat_messages = []
 
         # Iterate over fuzzy matches and add user and assistant messages
         for match in self.fuzzy_matches:
+
             # source sentence
             source_sentence = match["source_sentence"]
 
             # target sentence
             target_sentence = match["target_sentence"]
 
-            # user message
-            user_message = {"role": "user", "content": f"English: {source_sentence}"}
-            
-            # assistant message
-            assistant_message = {"role": "assistant", "content": f"Arabic: {target_sentence}"}
+            # human message template
+            human_message_template = f"{source_sentence}"
 
-            # append current user message
-            prompt.append(user_message)
+            # human message
+            human_message_prompt = HumanMessagePromptTemplate.from_template(
+                human_message_template)
 
-            # append current assistant message
-            prompt.append(assistant_message)
+            # ai message template
+            ai_message_template = f"{target_sentence}"
 
-        # Finally, add the user's original sentence to the prompt
-        user_message = {"role": "user", "content": f"English: {self.source_sentence}"}
+            # ai message
+            ai_message_prompt = AIMessagePromptTemplate.from_template(
+                ai_message_template)
 
-        # append the query sentence
-        prompt.append(user_message)
+            # add to chat messages
+            chat_messages.extend([human_message_prompt, ai_message_prompt])
 
-        # return the constructed prompt
-        return prompt
+        # user request message template
+        user_message_template = "{text}"
 
-    def create(self, source_language: str = "English", target_language: str = "Arabic") -> str:
-        """
-        Create a prompt given source and target languages
+        # user message
+        user_message_prompt = HumanMessagePromptTemplate.from_template(
+            user_message_template)
 
-        :param source_language str
-            Source language
-        :param target_language str
-            Target language
-        
-        :return str
-        """
-        
-        # source language
-        source_language = self.config['languages']['source_language']
+        # format message with kwargs
+        user_message_prompt.format_messages(text=request_sentence)
 
-        # target language
-        target_language = self.config['languages']['target_language']
+        # add user request for translation
+        chat_messages.append(user_message_prompt)
 
-        # assisstant template
-        template = "Please translate from {source_language} to {target_language}."
+        # combine messages
+        chat_prompt = ChatPromptTemplate.from_messages(
+            [system_message_prompt, *chat_messages])
 
-        # create system message
-        system_message_prompt = SystemMessagePromptTemplate.from_template(template)
+        # format chat prompt
+        chat_prompt = chat_prompt.format_messages(
+            source_language=self.source_language, target_language=self.target_language, text=request_sentence)
 
-
+        return chat_prompt
