@@ -43,7 +43,7 @@ class Prompt:
         """
 
         # assisstant template
-        template = "Please provide high-quality {source_language} text for translation into {target_language}."
+        template = "Act like a good translator from {source_language} subtitles to {target_language} subtitles."
 
         # create system message
         system_message_prompt = SystemMessagePromptTemplate.from_template(
@@ -71,6 +71,7 @@ class Prompt:
             # ai message template
             ai_message_template = f"{target_sentence}"
 
+            # print("ai_message_template: ", ai_message_template)
             # ai message
             ai_message_prompt = AIMessagePromptTemplate.from_template(
                 ai_message_template)

@@ -1,25 +1,43 @@
-\begin{thebibliography}{3}
+\begin{thebibliography}{7}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
-\bibitem[{Hadash et~al.(2018)Hadash, Kermany, Carmeli, Lavi, Kour, and
-  Jacovi}]{hadash2018estimate}
-Guy Hadash, Einat Kermany, Boaz Carmeli, Ofer Lavi, George Kour, and Alon
-  Jacovi. 2018.
-\newblock Estimate and replace: A novel approach to integrating deep neural
-  networks with existing applications.
-\newblock \emph{arXiv preprint arXiv:1804.09028}.
+\bibitem[{BLEU()}]{bleu}
+BLEU.
+\newblock \href {https://en.wikipedia.org/wiki/BLEU} {Bleu}.
+\newblock Wikipedia Article.
 
-\bibitem[{Kour and Saabne(2014{\natexlab{a}})}]{kour2014fast}
-George Kour and Raid Saabne. 2014{\natexlab{a}}.
-\newblock \href {https://doi.org/10.1109/SOCPAR.2014.7008025} {Fast
-  classification of handwritten on-line arabic characters}.
-\newblock In \emph{Soft Computing and Pattern Recognition (SoCPaR), 2014 6th
-  International Conference of}, pages 312--318. IEEE.
+\bibitem[{CHRF()}]{chrf}
+CHRF.
+\newblock \href {https://huggingface.co/spaces/evaluate-metric/chrf} {Chrf
+  (character n-gram f-score)}.
+\newblock Hugging Face Spaces Page.
 
-\bibitem[{Kour and Saabne(2014{\natexlab{b}})}]{kour2014real}
-George Kour and Raid Saabne. 2014{\natexlab{b}}.
-\newblock Real-time segmentation of on-line handwritten arabic script.
-\newblock In \emph{Frontiers in Handwriting Recognition (ICFHR), 2014 14th
-  International Conference on}, pages 417--422. IEEE.
+\bibitem[{Langchain()}]{langchain}
+Langchain.
+\newblock \href {https://python.langchain.com/} {Langchain python
+  documentation}.
+\newblock [Online documentation].
+
+\bibitem[{Moslem et~al.(2023)Moslem, Haque, and Way}]{moslem2023adaptive}
+Yasmin Moslem, Rejwanul Haque, and Andy Way. 2023.
+\newblock Adaptive machine translation with large language models.
+\newblock \emph{arXiv preprint arXiv:2301.13294}.
+
+\bibitem[{OpenSubtitles()}]{opensubtitles}
+OpenSubtitles.
+\newblock \href {https://www.opensubtitles.org/} {Opensubtitles}.
+\newblock Subtitle Repository.
+
+\bibitem[{Popovi{\'c}(2016)}]{popovic2016chrf}
+Maja Popovi{\'c}. 2016.
+\newblock chrf deconstructed: beta parameters and n-gram weights.
+\newblock In \emph{Proceedings of the First Conference on Machine Translation:
+  Volume 2, Shared Task Papers}, pages 499--504.
+
+\bibitem[{TER()}]{ter}
+TER.
+\newblock \href {https://huggingface.co/spaces/evaluate-metric/ter} {Ter
+  (translation edit rate)}.
+\newblock Hugging Face Spaces Page.
 
 \end{thebibliography}

@@ -1,8 +1,6 @@
-import os
 import openai
 from typing import List
-from dotenv import load_dotenv
-import datetime
+from tenacity import retry, stop_after_attempt, wait_random_exponential
 from langchain.schema.messages import AIMessage
 from langchain.chat_models import ChatOpenAI
 
@@ -53,8 +51,26 @@ class GPT:
         # openAI API key
         self.openai_api_key = self.openai_api_key
 
-
     def translate(self, chat_prompt: List) -> AIMessage:
+        """
+        Translate sentence using Chain-of-thoughts with Langchain
+
+        :param chat_prompt List
+            List of chat_prompt to the LLM
+
+        :return
+        """
+
+        # instantiate the chatOpenAI class
+        chat_llm = ChatOpenAI(openai_api_key = self.openai_api_key)
+
+        # generate resposne
+        llm_output = chat_llm.predict_messages(chat_prompt)
+
+        return llm_output.content
+
+    @retry(wait = 8, stop = stop_after_attempt(2))
+    def translate_with_tenacity(self, chat_prompt: List) -> AIMessage:
         """
         Translate sentence using Chain-of-thoughts with Langchain
 

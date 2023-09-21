@@ -24,11 +24,6 @@ class Evaluator:
 
         # Predicted sentence
         self.predicted_sentence: str = predicted_sentence
-    
-    def _bleu_score(self) -> float:
-        """
-        BLEU score
-        """
 
     def bleu_score(self) -> float:
         """
@@ -88,3 +83,4 @@ class Evaluator:
             'CHRF': round(chrf_score, 2),
             'TER': round(ter_score, 2)
         }
+

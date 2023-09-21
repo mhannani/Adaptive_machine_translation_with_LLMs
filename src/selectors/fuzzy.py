@@ -154,7 +154,6 @@ class Fuzzy:
 
         # actual sentence - dissimilarity = 0
         actual_sentence_index = np.where(distances == 0)[0]
-        print("actual_sentence_index: ", actual_sentence_index)
 
         # Filter distances and indices to remove entries with distance = 0
         filtered_distances = distances[non_zero_indices]

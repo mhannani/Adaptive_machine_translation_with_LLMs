@@ -10,18 +10,19 @@ from src.translators.chatgpt import GPT
 if __name__ == "__main__":
     # toml path
     toml_path: str = "./config/config.toml"
-    
+
     # Load environment variables from .env file
     load_dotenv()
 
     # OpenAI API key
     openai_api_key: str = os.getenv("OPENAI_API_KEY")
-    
+
     # parsing toml
     config = parse_toml(toml_path)
 
     # json_data_filepath
-    json_data_filepath: str = os.path.join(config['data']['processed'], config['data']['json_output'])
+    json_data_filepath: str = os.path.join(
+        config['data']['processed'], config['data']['json_output'])
 
     # Open the JSON file in read mode
     with open(json_data_filepath, 'r') as json_file:
@@ -35,17 +36,18 @@ if __name__ == "__main__":
     source_sentence = "I'm going to take a ride into the cold heart of winter."
 
     # k fuzzy matches
-    sentence_itself, k_fuzzy_matches = fuzzy.get_top_k(sentence = source_sentence, k = 5)
+    sentence_itself, k_fuzzy_matches = fuzzy.get_top_k(
+        sentence=source_sentence, k=5)
 
     # creating prompt object
-    prompt = Prompt(source_sentence, k_fuzzy_matches)
+    prompt = Prompt(config, k_fuzzy_matches)
 
-    # # gpt prompt
-    gpt_prompt = prompt()
-    
+    # gpt prompt
+    gpt_prompt = prompt.create(source_sentence)
+
     # gpt instance
-    gpt: GPT = GPT(openai_api_key)
+    gpt: GPT = GPT(config, openai_api_key)
 
     output = gpt.translate(gpt_prompt)
 
-    print("output: ", output) # لا يمكننا التنبؤ به ولا يمكننا التحكم فيه.
+    print("output: ", output)  # لا يمكننا التنبؤ به ولا يمكننا التحكم فيه.

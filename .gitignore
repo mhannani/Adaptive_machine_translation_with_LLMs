@@ -57,3 +57,10 @@ Desktop.ini
 
 
 temp.py
+reports/main.aux
+reports/custom.dbj
+reports/main.bcf
+reports/main.lot
+reports/main.blg
+reports/main.lof
+reports/main.bbl

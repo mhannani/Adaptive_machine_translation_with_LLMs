@@ -2582,7 +2582,7 @@
     {
         "key": 516,
         "source_sentence": "Code-R.",
-        "target_sentence": "20)}Yaso0orY الشيـفرة آر"
+        "target_sentence": "الشيـفرة آر"
     },
     {
         "key": 517,
@@ -3617,7 +3617,7 @@
     {
         "key": 723,
         "source_sentence": "That's right. Zero has an extraordinary power.",
-        "target_sentence": "449)}نــعم زيرو يمتلك قوة خارقـة"
+        "target_sentence": "نــعم زيرو يمتلك قوة خارقـة"
     },
     {
         "key": 724,
@@ -3627,7 +3627,7 @@
     {
         "key": 725,
         "source_sentence": "Why did Her Highness Euphemia's personality suddenly change?",
-        "target_sentence": "449)}لقد تغيرت الأميرة يوفيميا إلى شخص مختلف"
+        "target_sentence": "لقد تغيرت الأميرة يوفيميا إلى شخص مختلف"
     },
     {
         "key": 726,
@@ -3637,7 +3637,7 @@
     {
         "key": 727,
         "source_sentence": "In other words...",
-        "target_sentence": "449)}بـإختصـار"
+        "target_sentence": "بـإختصـار"
     },
     {
         "key": 728,
@@ -4366,8 +4366,8 @@
     },
     {
         "key": 873,
-        "source_sentence": "479)}Zero...",
-        "target_sentence": "479)} زيــرو ..."
+        "source_sentence": "Zero...",
+        "target_sentence": "زيــرو ..."
     },
     {
         "key": 874,

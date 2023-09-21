@@ -14,31 +14,106 @@
 \fi}
 \global\let\hyper@last\relax 
 \gdef\HyperFirstAtBeginDocument#1{#1}
-\providecommand\HyField@AuxAddToFields[1]{}
-\providecommand\HyField@AuxAddToCoFields[2]{}
+\providecommand*\HyPL@Entry[1]{}
+\AC@reset@newl@bel
+\HyPL@Entry{0<</S/D>>}
+\selectlanguage *{latex}
+\@writefile{toc}{\selectlanguage *{latex}}
+\@writefile{lof}{\selectlanguage *{latex}}
+\@writefile{lot}{\selectlanguage *{latex}}
+\citation{bleu}
+\citation{ter}
+\citation{chrf}
+\newacro{NLP}[\AC@hyperlink{NLP}{NLP}]{Natural Language Processing}
+\newacro{LLMs}[\AC@hyperlink{LLMs}{LLMs}]{Large Language Models}
+\newacro{Llama}[\AC@hyperlink{Llama}{Llama}]{Large Language Model Meta AI}
+\newacro{GPT}[\AC@hyperlink{GPT}{GPT}]{Generative Pre-trained Transformer}
+\newacro{API}[\AC@hyperlink{API}{API}]{Application Programming Interface}
+\newacro{FAISS}[\AC@hyperlink{FAISS}{FAISS}]{Facebook AI Similarity Search}
+\newacro{BLEU}[\AC@hyperlink{BLEU}{BLEU}]{Bilingual Evaluation Understudy}
+\newacro{TER}[\AC@hyperlink{TER}{TER}]{The Translation Edit Rate}
+\newacro{METEOR}[\AC@hyperlink{METEOR}{METEOR}]{Metric for Evaluation of Translation with Explicit ORdering}
+\newacro{CHRF}[\AC@hyperlink{CHRF}{CHRF}]{CHaRacter-level F-score}
+\citation{moslem2023adaptive}
+\HyPL@Entry{6<</S/D>>}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\citation{opensubtitles}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Methodology}{2}{section.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Data Collection}{2}{subsection.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}Data Preprocessing}{2}{subsubsection.2.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.2}Sentence Embedding Generation}{2}{subsubsection.2.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.3}FAISS Indexing}{2}{subsubsection.2.1.3}\protected@file@percent }
-\citation{kour2014real,hadash2018estimate}
-\citation{kour2014fast}
-\citation{kour2014fast}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.4}Prompt Composition}{3}{subsubsection.2.1.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3}Examples of citations, figures, tables, references}{3}{section.3}\protected@file@percent }
-\newlabel{sec:others}{{3}{3}{Examples of citations, figures, tables, references}{section.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Citations}{3}{subsection.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Figures}{3}{subsection.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Tables}{3}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Data Cleaning}{2}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Data Preprocessing}{2}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Retrieval of Similar Sentences}{2}{subsection.2.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Preprocessing step of cleaned dataset.\relax }}{3}{figure.caption.5}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:preprocessing}{{1}{3}{Preprocessing step of cleaned dataset.\relax }{figure.caption.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Top-k Similar Sentences Retrieval\relax }}{3}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:ktopsimilarsentences}{{2}{3}{Top-k Similar Sentences Retrieval\relax }{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.1}FAISS Indexing}{4}{subsubsection.2.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.2}Sentence Embedding Generation}{4}{subsubsection.2.4.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Corpus' Embeddings Generation\relax }}{4}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:embeddinggeneration}{{3}{4}{Corpus' Embeddings Generation\relax }{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.3}Index Creation}{4}{subsubsection.2.4.3}\protected@file@percent }
+\citation{langchain}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Storing Staked Sentences' Embedding in FAISS index\relax }}{5}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:embeddings}{{4}{5}{Storing Staked Sentences' Embedding in FAISS index\relax }{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Prompt Composition}{5}{subsection.2.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Top-k fuzzy matches pairs extraction\relax }}{5}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:fuzzymatches}{{5}{5}{Top-k fuzzy matches pairs extraction\relax }{figure.caption.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Inference with user request sentence\relax }}{6}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:inference}{{6}{6}{Inference with user request sentence\relax }{figure.caption.10}{}}
+\citation{bleu}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Evaluation}{7}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Evaluation Metrics}{7}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}\cite  {bleu} Score}{7}{subsubsection.3.1.1}\protected@file@percent }
+\newlabel{eq:bleu}{{1}{7}{\cite {bleu} Score}{equation.3.1}{}}
+\newlabel{eq:brevity-penalty}{{3.1.1}{7}{\cite {bleu} Score}{equation.3.1}{}}
+\citation{ter}
+\citation{chrf}
+\citation{popovic2016chrf}
+\citation{popovic2016chrf}
+\citation{popovic2016chrf}
+\citation{popovic2016chrf}
+\citation{popovic2016chrf}
+\citation{popovic2016chrf}
+\citation{popovic2016chrf}
+\citation{popovic2016chrf}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}\cite  {ter} Score}{8}{subsubsection.3.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.3}\cite  {chrf} Score}{8}{subsubsection.3.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Experimental Setup}{9}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Model Configuration}{9}{subsubsection.3.2.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces ChatOpenAI parameters from Langchain.chat\_models\relax }}{9}{table.caption.11}\protected@file@percent }
+\newlabel{table:param_values}{{1}{9}{ChatOpenAI parameters from Langchain.chat\_models\relax }{table.caption.11}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Sentence Embedding}{9}{subsubsection.3.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Sentence Embedding Example from the corpus\relax }}{9}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:sentenceembedding}{{7}{9}{Sentence Embedding Example from the corpus\relax }{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Fuzzy Matches}{10}{subsubsection.3.2.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces GPT prompt example with one incorporated fuzzy match along with user request\relax }}{10}{figure.caption.13}\protected@file@percent }
+\newlabel{fig:sample}{{8}{10}{GPT prompt example with one incorporated fuzzy match along with user request\relax }{figure.caption.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces GPT response to the above prompt. Figure \ref  {fig:sample}\relax }}{10}{figure.caption.14}\protected@file@percent }
+\newlabel{fig:gpt_output}{{9}{10}{GPT response to the above prompt. Figure \ref {fig:sample}\relax }{figure.caption.14}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Results and Discussion}{11}{section.4}\protected@file@percent }
+\newlabel{sec:results}{{4}{11}{Results and Discussion}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Evaluation Metrics}{11}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Results}{11}{subsection.4.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Evaluation Metrics\relax }}{11}{table.caption.15}\protected@file@percent }
+\newlabel{tab:evaluation-metrics}{{2}{11}{Evaluation Metrics\relax }{table.caption.15}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Discussion}{12}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Challenges}{12}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Arabic Morphology}{12}{subsection.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Translation Ambiguity}{12}{subsection.4.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Dialect Variations}{12}{subsection.4.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Potential Areas of Improvement}{13}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Contextual Understanding}{13}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Human Evaluation}{13}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{13}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}Acknowledgements}{14}{section.7}\protected@file@percent }
 \bibstyle{acl_natbib}
 \bibdata{references}
-\bibcite{hadash2018estimate}{{1}{2018}{{Hadash et~al.}}{{Hadash, Kermany, Carmeli, Lavi, Kour, and Jacovi}}}
-\bibcite{kour2014fast}{{2}{2014{a}}{{Kour and Saabne}}{{}}}
-\bibcite{kour2014real}{{3}{2014{b}}{{Kour and Saabne}}{{}}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Sample figure caption.}}{4}{figure.1}\protected@file@percent }
-\newlabel{fig:fig1}{{1}{4}{Sample figure caption}{figure.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Sample table title}}{4}{table.1}\protected@file@percent }
-\newlabel{tab:table}{{1}{4}{Sample table title}{table.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Lists}{4}{subsection.3.4}\protected@file@percent }
-\gdef \@abspage@last{6}
+\bibcite{bleu}{{1}{}{{BLEU}}{{}}}
+\bibcite{chrf}{{2}{}{{CHRF}}{{}}}
+\bibcite{langchain}{{3}{}{{Langchain}}{{}}}
+\bibcite{moslem2023adaptive}{{4}{2023}{{Moslem et~al.}}{{Moslem, Haque, and Way}}}
+\bibcite{opensubtitles}{{5}{}{{OpenSubtitles}}{{}}}
+\bibcite{popovic2016chrf}{{6}{2016}{{Popovi{\'c}}}{{}}}
+\bibcite{ter}{{7}{}{{TER}}{{}}}
+\gdef \@abspage@last{21}
