@@ -17,12 +17,9 @@
 \usepackage{acronym}
 \usepackage{caption}
 \usepackage{amsmath}
+\usepackage{titletoc}
 
 \usepackage{polyglossia}
-
-\usepackage{fontspec}
-\setmainfont{Linux Libertine O}
-\newfontfamily\arabicfont[Script=Arabic]{Amiri} % Specify the Arabic font
 
 
 
@@ -44,7 +41,7 @@
 }
 
 % Uncomment to remove the date
-\date{12 Septembre 2023}
+\date{15 Septembre 2023}
 
 % Uncomment to override  the `A preprint' in the header
 \renewcommand{\headeright}{Report}
@@ -326,7 +323,7 @@ Our translation system is powered by GPT-3.5 Turbo, a state-of-the-art language 
 
 \begin{table}[h]
 	\centering
-	\begin{tabular}{|c|c|c|c|c|}
+	\begin{tabular}{|p{4cm}|p{3cm}|p{2.5cm}|p{2cm}|p{1cm}|}
 		\hline
 		\textbf{Parameters} & \textbf{model} & \textbf{temperature} & \textbf{top\_p} & \textbf{n}\\
 		\hline
@@ -399,15 +396,13 @@ The computed scores for these metrics are shown in Table \ref{tab:evaluation-met
 
 \subsection{Results}
 
-\begin{table}[htb]
+\begin{table}[h]
 	\centering
-	\begin{tabular}{|l|c|}
+	\begin{tabular}{|p{4cm}|p{2cm}|p{2cm}|p{2cm}|}
 		\hline
-		\textbf{Metric} & \textbf{Mean Score} \\
+		\textbf{Metrics} & \textbf{BLEU}  & \textbf{CHRF} & \textbf{TER}\\
 		\hline
-		BLEU & 36.19 \\
-		CHRF & 51.58 \\
-		TER & 142.33 \\
+		\textbf{Values} & 36.19 & 51.58  & 142.33 \\
 		\hline
 	\end{tabular}
 	\caption{Evaluation Metrics}
@@ -423,7 +418,7 @@ It is worth mentioning that there are difficulties when it comes to assessing Ar
 The evaluation metrics provide valuable insights into the quality of our Arabic translation system. While character-level similarity (CHRF) is relatively high, indicating some commonality between translations, word-level accuracy (BLEU) and overall translation quality (TER) require improvement. Further analysis and fine-tuning of the translation model may be necessary to enhance word choice, semantics, and context.
 
 
-\subsection{Challenges}
+\section{Challenges}
 The domain of machine translation, especially for languages with complex structures like Arabic, presents several challenges. These challenges encompass linguistic, technical, and practical aspects that need to be addressed to improve translation quality and usability. Some of the key challenges in English to Arabic translation include:
 
 \subsection{Arabic Morphology}
