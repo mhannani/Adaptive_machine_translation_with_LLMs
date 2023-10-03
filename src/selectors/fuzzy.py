@@ -1,5 +1,6 @@
 import logging
 import os
+from pathlib import Path
 from tqdm import tqdm
 from typing import List
 from sentence_transformers import SentenceTransformer, util
@@ -41,7 +42,7 @@ class Fuzzy:
         self.save_faiss_to_disk = save_faiss_to_disk
 
         # faiss_path
-        self.faiss_path = os.path.join(self.config['data']['root'], self.config['data']['faiss_path'])
+        self.faiss_path = Path(self.config['data']['root']) / self.config['data']['faiss_path']
 
         # faiss_from_disk
         self.faiss_from_disk = faiss_from_disk
@@ -50,18 +51,21 @@ class Fuzzy:
         self.embedding_model = SentenceTransformer(self.embedding_model_name)
 
         # Check if the FAISS index file doesn't exists
-        if self.faiss_from_disk and not os.path.exists(self.faiss_path):
+        if self.faiss_from_disk and not self.faiss_path.exists():
             logging.warning("No FAISS index found! Building Faiss")
 
             # Not loading from disk anymore
             self.faiss_from_disk = False
+
+            # create dirs if not exists
+            self.faiss_path.parent.mkdir(parents=True, exist_ok=True)
+
         
         # Initialize the FAISS index (if not loading from disk)
         if not self.faiss_from_disk:
             # Create a cache for embeddings
             self.embedding_cache = {}
 
-            print(type(self.embedding_model.get_sentence_embedding_dimension()))
             # Initialize the FAISS index
             self.index = faiss.IndexFlatL2(self.embedding_model.get_sentence_embedding_dimension())
 
@@ -70,7 +74,7 @@ class Fuzzy:
         
         if self.faiss_from_disk:
             # Load the FAISS index from disk
-            self.index = faiss.read_index(self.faiss_path)
+            self.index = faiss.read_index(self.faiss_path.as_posix())
 
 
     def _add_data_to_index(self) -> None:
@@ -117,7 +121,7 @@ class Fuzzy:
 
         # save FAISS to disk
         if self.save_faiss_to_disk:
-            faiss.write_index(self.index, self.faiss_path)
+            faiss.write_index(self.index, self.faiss_path.as_posix())
 
 
     def get_top_k(self, sentence: str, distance_threshold: float = 0.8, k: int = 5) -> List[dict]:

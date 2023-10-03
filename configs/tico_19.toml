@@ -1,0 +1,23 @@
+[data]
+root = "./data/tico_19"
+raw = "./data/tico_19/raw"
+processed = "./data/tico_19/processed"
+index = "./data/tico-19/index"
+source_language = "ted_test1_en-ar.raw.en"
+target_language = "ted_test1_en-ar.raw.ar"
+json_output = "data.json"
+faiss_path = "index/faiss_index.index"
+
+[prompting]
+source_language = "English"
+target_language = "Arabic"
+
+[fuzzy]
+embedding_model_name = "sentence-transformers/all-MiniLM-L6-v2"
+
+[results]
+root = "results/tico_19"
+pairs_csv = "three_pairs.tsv"
+scores_csv = "scores.csv"
+
+# https://opus.nlpl.eu/tico-19.php

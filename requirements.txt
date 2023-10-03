@@ -5,8 +5,8 @@ datasets==2.14.4
 faiss-cpu==1.7.4
 fqdn==1.5.1
 isoduration==20.11.0
-jsonpointer==2.4
 jupyterlab==4.0.5
+langchain==0.0.305
 Levenshtein==0.21.1
 openai==0.28.0
 pip==23.1.2

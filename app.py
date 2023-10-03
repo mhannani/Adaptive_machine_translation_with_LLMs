@@ -1,5 +1,6 @@
 import os
 import json
+from pathlib import Path
 import chainlit as cl
 from tabulate import tabulate
 from dotenv import load_dotenv
@@ -12,7 +13,7 @@ from src.utils.clean import clean
 
 
 # toml path
-toml_path: str = "./config/config.toml"
+toml_path: str = Path("./configs/ted_talks.toml")
 
 # Load environment variables from .env file
 load_dotenv()
@@ -58,15 +59,17 @@ async def main(message: str):
     reference_sentence = None
 
     # splittable
-    splittable = False
+    # splittable = False
 
-    if "|" in message:
-        splittable = True
+    # if "|" in message:
+    #     splittable = True
 
-        parts = message.split("|")
-        message = parts[0].strip()
+    #     parts = message.split("|")
+    #     message = parts[0].strip()
 
-        reference_sentence = parts[1].strip()
+    #     reference_sentence = parts[1].strip()
+
+    await cl.Message(author="Dataset", content=f"{toml_path.stem}", indent=2).send()
 
     # Step 1: Getting top k fuzzy matches
     sentence_itself, k_fuzzy_matches = fuzzy.get_top_k(sentence=message, k=top_k)
@@ -88,31 +91,31 @@ async def main(message: str):
     # send back the final answer
     await cl.Message(author="Translator", content=f"{predicted_sentence}").send()
 
-    try:
-        # reference sentence
-        if reference_sentence is None:
-            reference_sentence = sentence_itself[0]['target_sentence']
+    # try:
+    #     # reference sentence
+    #     if reference_sentence is None:
+    #         reference_sentence = sentence_itself[0]['target_sentence']
 
-    except:
-        # we couldn't retreive the reference sentence
-        pass
+    # except:
+    #     # we couldn't retreive the reference sentence
+    #     pass
     
 
-    if reference_sentence is not None:
-        # evaluation
-        evaluator = Evaluator(reference_sentence, [predicted_sentence])
+    # if reference_sentence is not None:
+    #     # evaluation
+    #     evaluator = Evaluator(reference_sentence, [predicted_sentence])
 
-        # calculate metrics
-        all_scores = evaluator.all_score()
+    #     # calculate metrics
+    #     all_scores = evaluator.all_score()
 
-        # Convert the dictionary into a list of tuples
-        table_data = [(metric, score) for metric, score in all_scores.items()]
+    #     # Convert the dictionary into a list of tuples
+    #     table_data = [(metric, score) for metric, score in all_scores.items()]
 
-        # Create the table as a string
-        table = tabulate(table_data, headers=["Metric", "Score"], tablefmt="github")
+    #     # Create the table as a string
+    #     table = tabulate(table_data, headers=["Metric", "Score"], tablefmt="github")
 
-        await cl.Message(author="Evaluator", content=f"{reference_sentence}").send()
-        await cl.Message(author="Evaluator", content=f"{table}").send()
+    #     await cl.Message(author="Evaluator", content=f"{reference_sentence}").send()
+    #     await cl.Message(author="Evaluator", content=f"{table}").send()
 
-    if reference_sentence is None and not splittable:
-        await cl.Message(author="Evaluator", content=f"No reference sentence found, please use `'|'` when prompting as seperator: Ex: SENTENCE_TO_BE_TRANSLATED|REFERENCE_SENTENCE ").send()
+    # if reference_sentence is None and not splittable:
+    #     await cl.Message(author="Evaluator", content=f"No reference sentence found, please use `'|'` when prompting as seperator: Ex: SENTENCE_TO_BE_TRANSLATED|REFERENCE_SENTENCE ").send()

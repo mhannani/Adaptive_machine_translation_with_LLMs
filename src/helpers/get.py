@@ -1,12 +1,13 @@
 import tomli
+from pathlib import Path
 
 
-def parse_toml(toml_path: str) -> dict:
+def parse_toml(toml_path: Path) -> dict:
     """
     Parses toml configuration file
 
-    :param toml_path str
-        Toml filepath
+    :param toml_path Path
+        Toml file Path
     
     :return dict
         Returned dictionary of key-value pairs
@@ -14,7 +15,7 @@ def parse_toml(toml_path: str) -> dict:
 
     # Load and parse the specified TOML configuration file
     try:
-        with open(toml_path, 'rb') as config_file:
+        with open(toml_path.as_posix(), 'rb') as config_file:
             return tomli.load(config_file)
     except FileNotFoundError:
         raise FileNotFoundError(f"TOML file '{toml_path}' not found.")
@@ -23,7 +24,7 @@ def parse_toml(toml_path: str) -> dict:
     
 
 if __name__ == "__main__":
-    toml_path = "../../config/config.toml"
+    toml_path = Path("../../config/config.toml")
 
     # parse toml file
     config = parse_toml(toml_path)

@@ -1,12 +1,14 @@
 import os
 import json
+from pathlib import Path
 from src.helpers.get import parse_toml
 from src.selectors.fuzzy import Fuzzy
 
 
 if __name__ == "__main__":
+
     # toml path
-    toml_path: str = "./config/config.toml"
+    toml_path: str = Path("./configs/ted_talks.toml")
     
     # parsing toml
     config = parse_toml(toml_path)
@@ -23,7 +25,7 @@ if __name__ == "__main__":
     fuzzy = Fuzzy(config, json_data)
 
     # 5-fuzzy matches
-    k_fuzzy_matches = fuzzy.get_top_k(sentence="what is the weather ?", k = 5)
+    k_fuzzy_matches = fuzzy.get_top_k(sentence="however she has symptoms quite similar to mine", k = 5)
 
     # print 5 fuzzy matches
     print("k_fuzzy_matches: ", k_fuzzy_matches)

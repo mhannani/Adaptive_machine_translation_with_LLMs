@@ -10,7 +10,7 @@ import json
 import os
 from dotenv import load_dotenv
 from tqdm import tqdm
-from time import sleep
+from pathlib import Path
 
 from src.helpers.get import parse_toml
 from src.prompt.gpt import Prompt
@@ -18,15 +18,16 @@ from src.selectors.fuzzy import Fuzzy
 from src.translators.chatgpt import GPT
 
 
+
 if __name__ == "__main__":
     # toml path
-    toml_path: str = "./config/config.toml"
+    toml_path: str = Path("./configs/tico_19.toml")
 
     # Load environment variables from .env file
     load_dotenv()
 
     # OpenAI API key
-    openai_api_key: str = os.getenv("OPENAI_API_KEY")
+    openai_api_key: str = "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"
 
     # parsing toml
     config = parse_toml(toml_path)
@@ -59,7 +60,7 @@ if __name__ == "__main__":
         # csv_writer.writerow(['Source Sentence', 'Target Sentence', 'Predicted Sentence'])
 
         # Through all the corpus
-        for data in tqdm(json_data[842 + 1:], desc=f"Discovering corpus", ncols=100):
+        for data in tqdm(json_data, desc=f"Discovering corpus", ncols=100):
 
             # source sentence
             source_sentence = data["source_sentence"]

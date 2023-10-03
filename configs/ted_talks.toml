@@ -1,0 +1,23 @@
+[data]
+root = "./data/ted_talks"
+raw = "./data/ted_talks/raw"
+processed = "./data/ted_talks/processed"
+index = "./data/ted_talks/index"
+source_language = "ted_test1_en-ar.raw.en"
+target_language = "ted_test1_en-ar.raw.ar"
+json_output = "data.json"
+faiss_path = "index/faiss_index.index"
+
+[prompting]
+source_language = "English"
+target_language = "Arabic"
+
+[fuzzy]
+embedding_model_name = "sentence-transformers/all-MiniLM-L6-v2"
+
+[results]
+root = "results/ted_talks"
+pairs_csv = "three_pairs.tsv"
+scores_csv = "scores.csv"
+
+# https://www.cs.jhu.edu/~kevinduh/a/multitarget-tedtalks/

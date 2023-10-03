@@ -1,10 +1,10 @@
 [data]
-root = "./data"
-raw = "./data/raw"
-processed = "./data/processed"
-index = "./data/index"
+root = "./data/open_subtitles"
+raw = "./data/open_subtitles/raw"
+processed = "./data/open_subtitles/processed"
+index = "./data/open_subtitles/index"
 source_language = "OpenSubtitles.ar-en-small.en.txt"
-larget_language = "OpenSubtitles.ar-en-small.ar.txt"
+target_language = "OpenSubtitles.ar-en-small.ar.txt"
 json_output = "data.json"
 faiss_path = "index/faiss_index.index"
 
@@ -16,6 +16,6 @@ target_language = "Arabic"
 embedding_model_name = "sentence-transformers/all-MiniLM-L6-v2"
 
 [results]
-root = "results"
+root = "results/open_subtitles"
 pairs_csv = "three_pairs.tsv"
 scores_csv = "scores.csv"

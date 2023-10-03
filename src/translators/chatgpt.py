@@ -1,6 +1,6 @@
 import openai
 from typing import List
-from tenacity import retry, stop_after_attempt, wait_random_exponential
+from tenacity import retry, stop_after_attempt, wait_fixed, wait_random_exponential
 from langchain.schema.messages import AIMessage
 from langchain.chat_models import ChatOpenAI
 
@@ -69,7 +69,7 @@ class GPT:
 
         return llm_output.content
 
-    @retry(wait = 8, stop = stop_after_attempt(2))
+    @retry(wait=wait_random_exponential(min=2, max=60), stop=stop_after_attempt(6))
     def translate_with_tenacity(self, chat_prompt: List) -> AIMessage:
         """
         Translate sentence using Chain-of-thoughts with Langchain

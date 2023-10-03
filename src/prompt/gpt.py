@@ -43,7 +43,7 @@ class Prompt:
         """
 
         # assisstant template
-        template = "Act like a good translator from {source_language} subtitles to {target_language} subtitles."
+        template = "Act like a good translator from {source_language} subtitles to {target_language} subtitles. Translate the following {source_language} text into Arabic"
 
         # create system message
         system_message_prompt = SystemMessagePromptTemplate.from_template(
