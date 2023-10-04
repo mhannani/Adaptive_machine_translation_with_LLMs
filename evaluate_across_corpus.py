@@ -1,5 +1,7 @@
 import json
 import os
+from pathlib import Path
+import sys
 from dotenv import load_dotenv
 import openai
 from src.evaluation.eval import Evaluator
@@ -10,15 +12,26 @@ from src.utils.corpus_eval import evaluate_corpus
 
 if __name__ == "__main__":
 
-    # toml path
-    toml_path: str = "./config/config.toml"
-    
-    # Load environment variables from .env file
-    load_dotenv()
+    # Check if there is at least one command-line argument
+    if len(sys.argv) < 2:
+        print("Usage: python preprocess_data.py <dataset_name>")
 
-    # OpenAI API key
-    openai_api_key: str = os.getenv("OPENAI_API_KEY")
+        # quit
+        sys.exit(1)
+
+    # Get the config name from the command-line argument
+    dataset_name = sys.argv[1]
+
+    # toml path
+    toml_path: str = Path(f"./configs/{dataset_name}.toml")
     
+    # Ensure the toml file exists
+    if not toml_path.exists():
+        print(f"Config file '{dataset_name}.toml' not found at ./configs/, path: {toml_path}")
+
+        # quit
+        sys.exit(1)
+
     # parsing toml
     config = parse_toml(toml_path)
 

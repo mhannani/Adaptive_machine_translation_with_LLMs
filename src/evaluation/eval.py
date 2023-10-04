@@ -1,3 +1,4 @@
+from typing import List
 import sacrebleu
 
 
@@ -6,24 +7,24 @@ class Evaluator:
     Evaluation utilities
     """
 
-    def __init__(self, reference_sentence: str, predicted_sentence: str) -> None:
+    def __init__(self, reference_sentence: List, predicted_sentence: List) -> None:
         """
         Class constructor for evaluating MT
 
-        :param reference_sentence str
+        :param reference_sentence List
             The reference sentence
 
-        :param predicted_sentence str
+        :param predicted_sentence List
             The predicted sentence
         
         :return None
         """
 
         # Ground truth sentence
-        self.reference_sentence: str = reference_sentence
+        self.reference_sentence: List = reference_sentence
 
         # Predicted sentence
-        self.predicted_sentence: str = predicted_sentence
+        self.predicted_sentence: List = predicted_sentence
 
     def bleu_score(self) -> float:
         """
@@ -34,7 +35,7 @@ class Evaluator:
         """
 
         # Calculate the BLEU score
-        blue_score = sacrebleu.corpus_bleu(self.predicted_sentence, [[self.reference_sentence]])
+        blue_score = sacrebleu.corpus_bleu(self.predicted_sentence, [self.reference_sentence])
 
         return blue_score.score
     
@@ -47,7 +48,7 @@ class Evaluator:
         """
 
         # Calculate the BLEU score
-        chrf_score = sacrebleu.corpus_chrf(self.predicted_sentence, [[self.reference_sentence]])
+        chrf_score = sacrebleu.corpus_chrf(self.predicted_sentence, [self.reference_sentence])
 
         return chrf_score.score
 
@@ -60,7 +61,7 @@ class Evaluator:
         """
 
         # Calculate the BLEU score
-        ter_score = sacrebleu.corpus_ter(self.predicted_sentence, [[self.reference_sentence]])
+        ter_score = sacrebleu.corpus_ter(self.predicted_sentence, [self.reference_sentence])
 
         return ter_score.score
     

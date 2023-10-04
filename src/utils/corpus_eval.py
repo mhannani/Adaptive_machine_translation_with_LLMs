@@ -1,3 +1,4 @@
+from pathlib import Path
 from tqdm import tqdm
 from src.evaluation.eval import Evaluator
 import csv
@@ -16,23 +17,20 @@ def evaluate_corpus(config: object) -> None:
     :return None
     """
 
-    # all BLUE scores
-    all_bleu = []
-
-    # all CHRF scores
-    all_chrf = []
-
-    # all TER scores
-    all_ter = []
-
     # Result root
-    result_root = os.path.join(config['results']['root'])
+    result_root = Path(config['results']['root'])
 
     # Pairs csv path
-    pairs_csv_path = os.path.join(result_root, config['results']['pairs_csv'])
+    pairs_csv_path = result_root / "google_translate_example_5_shot_open_subtitles_chatgpt_3_5_turbo.csv"
+
+    # target sentences
+    target_sentences = []
+    
+    # predicted sentences
+    predicted_sentences =[]
 
     # open csv file read mode
-    with open(pairs_csv_path, 'r') as csv_file:
+    with open(pairs_csv_path.as_posix(), 'r') as csv_file:
 
         # csv reader
         csv_reader = csv.reader(csv_file, delimiter='\t')
@@ -54,42 +52,20 @@ def evaluate_corpus(config: object) -> None:
             # destructure fields
             _, target_sentence, predicted_sentence = row
 
-            # evaluator
-            evaluator = Evaluator(target_sentence, [predicted_sentence])
+            # append target sentence
+            target_sentences.append(target_sentence)
 
-            # scores
-            scores = evaluator.all_score()
+            # append predicted sentence
+            predicted_sentences.append(predicted_sentence)
 
-            # BLEU score
-            bleu_score = scores['BLEU']
+    # evaluator
+    evaluator = Evaluator(target_sentences, predicted_sentences)
 
-            # Add current blue score
-            all_bleu.append(bleu_score)
-
-            # CHRF score
-            chrf_score = scores['CHRF']
-
-            # add current chrf score
-            all_chrf.append(chrf_score)
-
-            # TER score
-            ter_score = scores['TER']
-
-            # add current ter score
-            all_ter.append(ter_score)
-
-    
-    # Mean of all bleu scores
-    mean_bleu = sum(all_bleu) / len(all_bleu)
-
-    # Mean of all chrf scores
-    mean_chrf = sum(all_chrf) / len(all_chrf)
-
-    # Mean of all ter scores
-    mean_ter = sum(all_ter) / len(all_ter)
+    # scores
+    scores = evaluator.all_score()
 
     # all scores
-    all_scores = {"BLEU": mean_bleu, "CHRF": mean_chrf, "TER": mean_ter}
+    all_scores = {"BLEU": scores['BLEU'], "CHRF": scores['CHRF'], "TER": scores['TER']}
 
     # save all score to csv
     save_scores(config, all_scores)

@@ -49,7 +49,7 @@ class Preprocessor:
 
         # Check if both source and target language data files exist
         if not self.source_lang_data.exists() or not self.target_lang_data.exists():
-            raise FileNotFoundError("One or both of the data files do not exist.")
+            raise FileNotFoundError(f"One or both of the data files do not exist. source: {self.source_lang_data}, target: {self.target_lang_data}")
 
         # Initialize a list to store the JSON data
         json_data: List = []

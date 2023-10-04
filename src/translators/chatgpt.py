@@ -10,7 +10,7 @@ class GPT:
     GPT as translator model
     """
 
-    def __init__(self, config, openai_api_key: str, model: str = 'gpt-3.5-turbo', temperature: float = 0.0, max_tokens: int = 50) -> None:
+    def __init__(self, config, openai_api_key: str, model: str = 'gpt-4', temperature: float = 0.3, max_tokens: int = 50) -> None:
         """
         Class constructor for GPT model as API.
 
@@ -51,6 +51,9 @@ class GPT:
         # openAI API key
         self.openai_api_key = self.openai_api_key
 
+        # instantiate the chatOpenAI class
+        self.chat_llm = ChatOpenAI(openai_api_key = self.openai_api_key, model_name = self.model, temperature = self.temperature)
+
     def translate(self, chat_prompt: List) -> AIMessage:
         """
         Translate sentence using Chain-of-thoughts with Langchain
@@ -61,11 +64,8 @@ class GPT:
         :return
         """
 
-        # instantiate the chatOpenAI class
-        chat_llm = ChatOpenAI(openai_api_key = self.openai_api_key)
-
         # generate resposne
-        llm_output = chat_llm.predict_messages(chat_prompt)
+        llm_output = self.chat_llm.predict_messages(chat_prompt)
 
         return llm_output.content
 
@@ -80,10 +80,7 @@ class GPT:
         :return
         """
 
-        # instantiate the chatOpenAI class
-        chat_llm = ChatOpenAI(openai_api_key = self.openai_api_key)
-
         # generate resposne
-        llm_output = chat_llm.predict_messages(chat_prompt)
+        llm_output = self.chat_llm.predict_messages(chat_prompt)
 
         return llm_output.content

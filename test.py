@@ -2,6 +2,7 @@ from nltk.tokenize import word_tokenize
 from sacremoses import MosesTokenizer, MosesDetokenizer
 from transformers import pipeline
 import nltk
+nltk.download('punkt')
 # Initialize the Moses tokenizer and detokenizer
 mt = MosesTokenizer(lang="ar")
 md = MosesDetokenizer(lang="ar")

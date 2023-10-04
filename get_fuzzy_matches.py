@@ -3,13 +3,31 @@ import json
 from pathlib import Path
 from src.helpers.get import parse_toml
 from src.selectors.fuzzy import Fuzzy
+import sys
 
 
 if __name__ == "__main__":
 
+    # Check if there is at least one command-line argument
+    if len(sys.argv) < 2:
+        print("Usage: python get_fuzzy_matches.py <dataset_name>")
+
+        # quit
+        sys.exit(1)
+
+    # Get the config name from the command-line argument
+    dataset_name = sys.argv[1]
+
     # toml path
-    toml_path: str = Path("./configs/ted_talks.toml")
+    toml_path: str = Path(f"./configs/{dataset_name}.toml")
     
+    # Ensure the toml file exists
+    if not toml_path.exists():
+        print(f"Config file '{dataset_name}.toml' not found at ./configs/, path: {toml_path}")
+
+        # quit
+        sys.exit(1)
+        
     # parsing toml
     config = parse_toml(toml_path)
 

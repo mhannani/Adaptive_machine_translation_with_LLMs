@@ -1,0 +1,4 @@
+Metric,Mean Score
+BLEU,35.74
+CHRF,53.87
+TER,66.25
