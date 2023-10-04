@@ -17,5 +17,5 @@ embedding_model_name = "sentence-transformers/all-MiniLM-L6-v2"
 
 [results]
 root = "results/open_subtitles"
-pairs_csv = "three_pairs.tsv"
-scores_csv = "scores.csv"
+pairs_csv = "llama_three_pairs.tsv"
+scores_csv = "llama_scores.csv"

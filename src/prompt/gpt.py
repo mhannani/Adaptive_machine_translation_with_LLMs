@@ -32,9 +32,9 @@ class Prompt:
         # fuzzy_match
         self.fuzzy_matches: List = fuzzy_matches
 
-    def create(self, request_sentence: str) -> str:
+    def create_gpt_prompt(self, request_sentence: str) -> str:
         """
-        Create a prompt given source and target languages
+        Create a prompt given source and target languages for GPT model
 
         :param request_sentence str
             Request sentence
@@ -101,3 +101,38 @@ class Prompt:
             source_language=self.source_language, target_language=self.target_language, text=request_sentence)
 
         return chat_prompt
+    
+    def create_Llama_prompt(self, request_sentence: str) -> dict:
+        """
+        Creates Llama 2 prompt to work with Replicate
+
+        :request_sentence str
+            The provided user request sentence to translate
+
+        :return 
+        """
+
+        # assisstant template
+        llama_2_prompt = f"Act like a good translator from {self.source_language} subtitles to {self.target_language} subtitles. Translate the following {self.source_language} text into Arabic. Give me only the Arabic sentence, no Note , Translation, and how to prounounce it."
+
+        # prompt
+        prompt = """"""
+        
+        # Iterate over fuzzy matches and add user and assistant messages
+        for match in self.fuzzy_matches:
+            # source sentence
+            source_sentence = match["source_sentence"]
+
+            # target sentence
+            target_sentence = match["target_sentence"]
+
+            # add source sentence to the prompt
+            prompt = prompt + f"[INST] {source_sentence} [/INST]\n"
+
+            # add target sentence
+            prompt = prompt + f"{target_sentence}\n"
+        
+        # prompt
+        prompt = prompt + f"[INST] {request_sentence} [/INST]"
+
+        return {"prompt": prompt, "system_prompt": llama_2_prompt}

@@ -8,6 +8,7 @@ invocation for every experiment conducted.
 import csv
 import json
 import os
+import sys
 from dotenv import load_dotenv
 from tqdm import tqdm
 from pathlib import Path
@@ -15,19 +16,36 @@ from pathlib import Path
 from src.helpers.get import parse_toml
 from src.prompt.gpt import Prompt
 from src.selectors.fuzzy import Fuzzy
-from src.translators.chatgpt import GPT
-
+from src.translators.llama2 import Llama2
 
 
 if __name__ == "__main__":
+
+    # Check if there is at least one command-line argument
+    if len(sys.argv) < 2:
+        print("Usage: python preprocess_data.py <dataset_name>")
+
+        # quit
+        sys.exit(1)
+
+    # Get the config name from the command-line argument
+    dataset_name = sys.argv[1]
+
     # toml path
-    toml_path: str = Path("./configs/tico_19.toml")
+    toml_path: str = Path(f"./configs/{dataset_name}.toml")
+    
+    # Ensure the toml file exists
+    if not toml_path.exists():
+        print(f"Config file '{dataset_name}.toml' not found at ./configs/, path: {toml_path}")
+
+        # quit
+        sys.exit(1)
 
     # Load environment variables from .env file
     load_dotenv()
 
-    # OpenAI API key
-    openai_api_key: str = "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"
+    # Replicate API key
+    replicate_api_key: str = os.getenv("REPLICATE_API_TOKEN")
 
     # parsing toml
     config = parse_toml(toml_path)
@@ -56,8 +74,9 @@ if __name__ == "__main__":
         # Write the header row
         csv_writer = csv.writer(csv_file, delimiter='\t')
 
-        # Write the data rows
-        # csv_writer.writerow(['Source Sentence', 'Target Sentence', 'Predicted Sentence'])
+        if not os.path.exists(pairs_csv_path):
+            # Write the data rows
+            csv_writer.writerow(['Source Sentence', 'Target Sentence', 'Predicted Sentence'])
 
         # Through all the corpus
         for data in tqdm(json_data, desc=f"Discovering corpus", ncols=100):
@@ -78,13 +97,13 @@ if __name__ == "__main__":
             prompt = Prompt(config, k_fuzzy_matches)
 
             # gpt prompt
-            gpt_prompt = prompt.create_gpt_prompt(source_sentence)
+            llama_prompt = prompt.create_Llama_prompt(source_sentence)
 
-            # gpt instance
-            gpt: GPT = GPT(config, openai_api_key)
+            # Llama instance
+            llama_2: Llama2 = Llama2(config, replicate_api_key)
 
             # get translation
-            predicted_sentence = gpt.translate_with_tenacity(gpt_prompt)
+            predicted_sentence = llama_2.translate_with_tenacity(llama_prompt)
 
             # write current row
             csv_writer.writerow([source_sentence, target_sentence, predicted_sentence])
