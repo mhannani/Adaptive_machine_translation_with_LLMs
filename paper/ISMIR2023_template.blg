@@ -11,46 +11,54 @@ Database file #1: ISMIRtemplate.bib
 -- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
 -- http://www.michaelshell.org/tex/ieeetran/bibtex/
 -- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+Warning--empty journal in lison2016opensubtitles2016
+Name 1 in "Knowles, Rebecca, and Philipp Koehn" has a comma at the end for entry knowles2018fuzzy
+while executing---line 2403 of file IEEEtran.bst
+Name 1 in "Bulte, Boris, and Ayşe Aişe Tezcan" has a comma at the end for entry bulte2019fuzzy
+while executing---line 2403 of file IEEEtran.bst
+Name 1 in "Hosseini, Seyed Mohammad Sadegh, and Hamed Zamani" has a comma at the end for entry hosseini2020embedding
+while executing---line 2403 of file IEEEtran.bst
 
 Done.
-You've used 4 entries,
+You've used 15 entries,
             4087 wiz_defined-function locations,
-            856 strings with 7936 characters,
-and the built_in function-call counts, 3157 in all, are:
-= -- 242
-> -- 62
-< -- 28
-+ -- 34
-- -- 9
-* -- 160
-:= -- 476
-add.period$ -- 9
-call.type$ -- 4
-change.case$ -- 5
-chr.to.int$ -- 69
-cite$ -- 4
-duplicate$ -- 215
-empty$ -- 273
-format.name$ -- 12
-if$ -- 725
+            893 strings with 10346 characters,
+and the built_in function-call counts, 8415 in all, are:
+= -- 614
+> -- 291
+< -- 27
++ -- 154
+- -- 72
+* -- 391
+:= -- 1360
+add.period$ -- 30
+call.type$ -- 15
+change.case$ -- 15
+chr.to.int$ -- 66
+cite$ -- 16
+duplicate$ -- 670
+empty$ -- 692
+format.name$ -- 75
+if$ -- 1888
 int.to.chr$ -- 0
-int.to.str$ -- 4
-missing$ -- 33
-newline$ -- 35
-num.names$ -- 6
-pop$ -- 79
+int.to.str$ -- 15
+missing$ -- 131
+newline$ -- 68
+num.names$ -- 15
+pop$ -- 352
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 235
+skip$ -- 615
 stack$ -- 0
-substring$ -- 163
-swap$ -- 177
+substring$ -- 185
+swap$ -- 443
 text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 4
-warning$ -- 0
-while$ -- 17
-width$ -- 5
-write$ -- 59
+type$ -- 15
+warning$ -- 1
+while$ -- 23
+width$ -- 17
+write$ -- 146
+(There were 3 error messages)
