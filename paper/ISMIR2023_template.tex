@@ -1,10 +1,14 @@
-\documentclass{article}
+\documentclass[twocolumn]{article}
+
 \usepackage[T1]{fontenc} % add special characters (e.g., umlaute)
 \usepackage[utf8]{inputenc} % set utf-8 as default input encoding
-\usepackage{ismir,amsmath,cite,url}
+\usepackage{amsmath,cite,url}
+%\usepackage{ismir,amsmath,cite,url}
 \usepackage{graphicx}
 \usepackage{color}
 \usepackage{parskip}
+\usepackage{hyperref}
+
 
 \usepackage{lineno}
 
@@ -29,10 +33,23 @@
 % Three addresses
 % --------------\input{ISMIR2021_paper.tex}
 
-\threeauthors
-{Mohamed Hannani } {Researcher }
-{Abdelhadi Soudi} {Professor}
-{Kristof Van Laerhoven} {Professor}
+%\threeauthors
+%{Mohamed Hannani } {Researcher }
+%{Abdelhadi Soudi} {Professor}
+%{Kristof Van Laerhoven} {Professor}
+
+\author{
+	Abdelhadi Soudi \\
+	Professor
+	\and
+%	Kristof Van Laerhoven \\
+%	Professor
+%	\and
+	Mohamed Hannani \\
+	Researcher
+}
+
+\date{}  % Remove the date
 
 % Four or more addresses
 % OR alternative format for large number of co-authors
@@ -70,10 +87,16 @@ icant progress in domain adaptation, achieving real-time adaptation for subtitle
 
 The ever-expanding landscape of natural language processing and machine translation has ushered in a new era of communication, significantly reducing linguistic divides and fostering cross-cultural understanding. While large language models, such as GPT, Llama 2, and the recently introduced Falcon have made remarkable strides in handling a wide range of language-related tasks, machine translation goes beyond mere word conversion. It entails the intricate task of preserving nuances, idioms, and the unique stylistic attributes that define human languages.
 
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth, ]{figs/Llama2_evaluation} % Adjust the height as needed
+	\caption{ Evaluation results of Llama-2-70b-hf, with zero-shot, 2-shot and 5-shot fuzzy matches.}
+	
+	\label{llama_2_evaluation:duck}
+\end{figure}
+
 
 Language Language Models (LLMs), including but not limited to GPT-3\cite{brown2020language}, PaLM\cite{chowdhery2022palm}, Falcon\cite{penedo2023refinedweb}, and LLaMA\cite{touvron2023llama}, have been designed to predict the subsequent word in a sequence based on the context. Brown et al.\cite{brown2020language}; Ouyang et\cite{ouyang2022training} introduced the concept of "in-context learning" to describe a scenario where a pre-trained language model, during inference, assimilates specific input-output text generation patterns without the need for further fine-tuning. Their research highlighted that autoregressive LLMs like GPT-3 exhibit strong performance across diverse tasks, including zero-shot, one-shot, and few-shot in-context learning, all without necessitating updates to their weights. Instead of directly instructing the model to perform a particular task, input data can be enriched with relevant examples to facilitate the model's adaptation. The core principle of in-context learning revolves around learning from analogies embedded within demonstrations (Dong et al., 2022).
-
-
 
 
 This brings us to the concept of adaptive translation, a paradigm aimed at enhancing machine translation by tailoring it to specific domains, genres, or styles. A key advantage of adaptive translation is its ability to achieve domain-specific translation goals without the resource-intensive processes of model training and fine-tuning. Our particular emphasis lies in harnessing the capabilities of Llama-2-70b-chat by Meta and GPT-3.5 Turbo by OpenAI with in-context samples.
@@ -94,16 +117,18 @@ The primary focus of this paper centers on exploring the capabilities of LLMs su
 	
 \end{enumerate}
 
-In the following sections, we provide a detailed account of our methodology, experimental setup, results, and engage in a broader discussion of the implications of adaptive translation in the field of machine learning. 
+In the following sections, we provide a detailed account of dataset, methodology, experimental setup, results, and engage in a broader discussion of the implications of adaptive translation in the field of machine learning. 
+
+
+
 
 \begin{figure}
 	\centering
-	\includegraphics[width=\linewidth, ]{figs/Llama2_evaluation} % Adjust the height as needed
-	\caption{ Evaluation results of Llama-2-70b-hf, with zero-shot, 2-shot and 5-shot fuzzy matches for En-Ar subtitles.}
+	\includegraphics[width=\linewidth, ]{figs/chagpt_3_5_evaluation} % Adjust the height as needed
+	\caption{ Evaluation results of GPT 3.5 Turbo, with zero-shot, 2-shot and 5-shot fuzzy matches.}
 	
-	\label{llama_2_evaluation:duck}
+	\label{chagpt_3_5_evaluation:duck}
 \end{figure}
-
 
 \section{Dataset}
 To build a robust translation model with domain-specific knowledge, we collected a dataset of approximately 1,500 movie subtitles that had been meticulously translated from English to Arabic. These subtitles were selected to represent a diverse range of cinematic language styles and contexts. 
@@ -119,10 +144,39 @@ In our experimental setup, we exclusively employed the OpenSubtitle dataset, spe
 
 For our language model resources, we harnessed the power of two distinct Large Language Models (LLMs), namely GPT-3.5 Turbo via the OpenAI API and Llama 2 70b-hf through the Replica API.
 
-In terms of parameterization, we maintained a consistent approach across the three translation tasks. We set the 'top-p' parameter to 1 and applied a temperature value of 0.3. 
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		\textbf{Parameters}  & \textbf{temperature} & \textbf{top\_p} & \textbf{n}\\
+		\hline
+		\textbf{Values}  & \textbf{0.7}  & \textbf{1}  & \textbf{1}\\
+		\hline
+	\end{tabular}
+	\caption{GPT-3.5-turbo parameters with OpenAI API}
+	\label{table:GPT_3.5_turbo_parameters_with_OpenAI_API}
+\end{table}
+
+In terms of parameterization, we maintained a consistent approach across the three translation tasks. We set respectively the 'top-p' parameter to 1  and applied a temperature value of 0.7 for GPT model Table \ref{table:GPT_3.5_turbo_parameters_with_OpenAI_API},  0.9 and 0.75 for Llama 2 model Table \ref{table:Llama_2_70b_chat_parameters}. 
 
 
-\section{Fuzzy Matches in Machine Translation}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+
+		\hline
+		\textbf{Parameters} & \textbf{temperature} & \textbf{top\_p} & \textbf{n}\\
+		\hline
+		\textbf{Values}  & \textbf{0.75}  & \textbf{0.9}  & \textbf{-}\\
+		\hline
+	\end{tabular}
+	\caption{Llama 2 70b-chat parameters with Replicate}
+	\label{table:Llama_2_70b_chat_parameters}
+\end{table}
+
+
+\section{Fuzzy Matches}
 
 Machine translation (MT) plays a pivotal role in the professional and personal realms, yet its perfection remains an ongoing quest. One avenue toward elevating MT quality is the incorporation of fuzzy matches. These fuzzy matches comprise similar segments of previously approved translations stored within parallel datasets, commonly referred to as translation memories (TMs). Researchers have diligently explored the potential of fuzzy matches in bolstering MT quality and consistency \cite{knowles2018fuzzy,bulte2019fuzzy,xu2020forcing}.
 
@@ -138,7 +192,7 @@ In tandem with these studies, there has been a burgeoning interest in leveraging
 
 The above illustrations highlight the distinction between zero-shot and few-shot translation prompts. In the zero-shot scenario, only the source sentence and language specifications are provided, prompting the model to autonomously generate the translation. Conversely, the few-shot prompt incorporates translation examples, guiding the style of the generated output.
 
-The results in Figure 1 highlight the remarkable performance difference between using Llama 2 70b-hf with fuzzy matches and zero-shot translation. When employing fuzzy matches, translation quality metrics such as Blue and TER show substantial improvements, underlining the effectiveness of this approach in enhancing translation accuracy and fluency.
+The results in Figure 1, Figure 2 highlight the remarkable performance difference between using Llama 2 70b-hf, as well as GPT 3.5 Turbo with 2-shot, 5-shot fuzzy matches and zero-shot translation. When employing fuzzy matches, translation quality metrics such as Blue and TER show substantial improvements, underlining the effectiveness of this approach in enhancing translation accuracy and fluency.
 
 \begin{figure}
 	\centering
@@ -184,21 +238,41 @@ We use the fuzzy matches to generate context-aware prompts for GPT-3.5 Turbo and
 FAISS and sentence embeddings allow for efficient and effective fuzzy match retrieval, which can be used to generate context-aware prompts for LLMs model to produce more accurate and fluent translations being context-aware.
 
 
-\section{Encoder-Decoder MT Models}
+\section{Prompt composition}
+
+For each translation request, our approach leveraged the FAISS index to retrieve the top-k closest sentence embeddings from the domain-specific dataset. These retrieved sentences served as the foundation for constructing contextually rich prompts for the LLM model.
+
+
+To facilitate prompt composition and enhance translation quality, we integrated Langchain into our system. Langchain is a versatile tool that enables the generation of coherent and domain-specific prompts. 
+
+In our implementation, we utilized the following Langchain settings:
+
+\textbf{SystemMessage:} We set the SystemMessage to: "Act like a good translator from English subtitles to Arabic subtitles. Translate the following English sentence into Arabic" for GPT3.5 Turbo and "Act like a good translator from English subtitles to Arabic subtitles. Translate the following English sentence to Arabic. Give me only the Arabic sentence, no Notes, and how to prounounce it". This SystemMessage template played a pivotal role in guiding the LLM model to follow the desired style and context for subtitle translation tasks. It acted as a foundational prompt template, providing a structured starting point for generating high-quality translations.
+	
+
+\textbf{HumanMessage} and \textbf{AIMessage}: Building upon the SystemMessage, we employed a combination of stacked HumanMessage and AIMessage. These messages were carefully crafted to maintain a conversational flow and ensure that the GPT model understood the user’s request.
+
+The last \textbf{HumanMessage} in the sequence is the user’s sentence request, serving as the input for the translation task.
+
+
+In the evaluation phase of the translation system, we leverage the above chat message format to interact with the GPT3.5 Turbo model effectively. Each translation request is encapsulated within a chat message, providing a structured way to communicate with the model. The chat message typically consists of a series of messages, including a SystemMessage, AIMessages, and a final UserMessage. The SystemMessage sets the context and instructs the model to perform as a skilled translator. AIMessages provide additional guidance, context, or clarifications as needed. The UserMessage encapsulates the user’s specific translation request, serving as the input for the model. By crafting messages in this manner, we ensure that the GPT model receives clear.
+
+Worth the mention that the prompt composition of Llama 2 is the same as the GPT's one, but with some changes to the HumanMessage, Here the instruction tags that indicate the beginning ("[INST]") and end (`”/INST]”) of user input, wheras AIMessage was used as plain text without any instruction tags.
+
+
+\section{Encoder-Decoder Models}
 In this section, we aim to compare evaluation
-results we obtained from MT encoder-decoder Transformer-based systems\cite{vaswani2017attention}, To this end,
-we translated our context dataset with Google Cloud Translation API. The results are detailed in Table 4.
+results we obtained from MT encoder-decoder Transformer-based systems\cite{vaswani2017attention}, with those from GPT-3.5 and Llama 2 To this end, we translated our context dataset with Google Cloud Translation API. The results are detailed in Figure \ref{fig:google_transltation_evaluation}.
 
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth, ]{figs/Google_translate_api} % Adjust the height as needed
 	\caption{ Google translation evaluation}
 	
-	\label{fig:duck}
+	\label{fig:google_transltation_evaluation}
 \end{figure}
 
-
-
+As demonstrated by Figure \ref{fig:google_transltation_evaluation}, We observe that for En-Ar subtitles, adaptive MT with or without fuzzy matches using GPT-3.5 and Llama 2 outperform Google Cloud Transalate API.
 
 % For bibtex users:
 \bibliography{ISMIRtemplate}
