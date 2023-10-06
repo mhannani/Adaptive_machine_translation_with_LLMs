@@ -78,8 +78,7 @@ Researcher
 \maketitle
 
 \begin{abstract}
-While machine translation (MT) has made sign
-icant progress in domain adaptation, achieving real-time adaptation for subtitles remains a formidable challenge. Large-scale language models (LLMs) have emerged as promising candidates for in-context learning. This study delves into the potential of in-context learning for real-time adaptive MT in the context of English-to-Arabic subtitles, with the utilization of the FAISS index for fuzzy match selection. Our experiments demonstrate the remarkable capacity of LLMs to adapt to in-domain content, surpassing traditional encoder-decoder MT models. Furthermore, we explore the integration of MT techniques, encompassing both robust encoder-decoder models and LLMs, with fuzzy matching. This integration reveals the potential to further elevate translation quality, a particularly valuable asset in the realm of English-to-Arabic subtitle translation, where language support may be limited. To validate our findings, we conducted extensive experiments focused on English-to-Arabic (EN-AR) subtitle translation.
+While machine translation (MT) has made signicant progress in domain adaptation, achieving real-time adaptation for subtitles remains a formidable challenge. Large-scale language models (LLMs) have emerged as promising candidates for in-context learning. This study delves into the potential of in-context learning for real-time adaptive MT in the context of English-to-Arabic subtitles, with the utilization of the FAISS index for fuzzy match selection. Our experiments demonstrate the remarkable capacity of LLMs to adapt to in-domain content, surpassing traditional encoder-decoder MT models. Furthermore, we explore the integration of MT techniques, encompassing both robust encoder-decoder models and LLMs, with fuzzy matching. This integration reveals the potential to further elevate translation quality, a particularly valuable asset in the realm of English-to-Arabic subtitle translation, where language support may be limited. To validate our findings, we conducted extensive experiments focused on English-to-Arabic (EN-AR) subtitle translation.
 
 \end{abstract}
 %
@@ -243,7 +242,7 @@ FAISS and sentence embeddings allow for efficient and effective fuzzy match retr
 For each translation request, our approach leveraged the FAISS index to retrieve the top-k closest sentence embeddings from the domain-specific dataset. These retrieved sentences served as the foundation for constructing contextually rich prompts for the LLM model.
 
 
-To facilitate prompt composition and enhance translation quality, we integrated Langchain into our system. Langchain is a versatile tool that enables the generation of coherent and domain-specific prompts. 
+To facilitate prompt composition and enhance translation quality, we integrated Langchain\cite{langchain} into our system. Langchain is a versatile tool that enables the generation of coherent and domain-specific prompts. 
 
 In our implementation, we utilized the following Langchain settings:
 
@@ -267,12 +266,72 @@ results we obtained from MT encoder-decoder Transformer-based systems\cite{vaswa
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth, ]{figs/Google_translate_api} % Adjust the height as needed
-\caption{ Google translation evaluation}
+\caption{ Google Could Translate API evaluation}
 
 \label{fig:google_transltation_evaluation}
 \end{figure}
 
 As demonstrated by Figure \ref{fig:google_transltation_evaluation}, We observe that for En-Ar subtitles, adaptive MT with or without fuzzy matches using GPT-3.5 and Llama 2 outperform Google Cloud Transalate API.
+
+
+\section{Encoder-Decoder + LLMs}
+
+In the section, we wanted to see if we could utilize the strengths of encoder decoder models to enhance translation alongside GPT 3.5 and Llama 2 70b chat for languages with abundant resources. In the following sections we will discuss strategies such as translating matches on the source side and integrating these translations into the framework of few shot in context learning along with the original translations.
+
+Our experiment also involved incorporating machine translated examples from Google translation of source sentences of fuzzy match, which turned out to be highly beneficial when dealing with matches. By applying machine translation to all instances of matches and including the translated version of the source segment in our experimental setup we were able to improve the effectiveness of GPT 3.5 and Llama 2 70b-chat within an, in context learning. Results of experiment are summarized in Figure \ref{table:language_systems}
+
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|c|c|c|c|}
+		\hline
+		 \textbf{Configuration} & \textbf{BLEU$\uparrow$} & \textbf{CHRF$\uparrow$} & \textbf{TER$\downarrow$}\\
+		\hline
+		Google API Cloud & 11.51 & 37.50 & 122.52  \\
+		
+		\hline
+		GPT-3 zero-shot & 28.68 & 54.34 & 95.86 \\
+		GPT fuzzy 2-shot & 29.8 & 55.66 & 95.3 \\
+		GPT fuzzy 5-shot & 32.43 & 58.89 & 89.98  \\
+		
+		GPT MT 2-shot & 30.37 & 56.22 & 92.81 \\
+		GPT MT 5-shot & 32.11 & 57.84 & 91.1  \\
+	
+		\hline
+		Llama zero-shot & 29.59 & 55.36 & 95.19 \\
+		Llama 2-shot & 31.71 & 51.66 & 70.85 \\
+		Llama 5-shot & 35.74 & 53.87 & 66.25  \\
+		
+		Llama MT 2-shot & 32.08 & 57.42 & 90.57 \\
+		Llama MT 5-shot & \textbf{44.04} & \textbf{60.2} & \textbf{56.57} \\
+		
+		\hline
+
+	\end{tabular}
+	\caption{Comparing GPT-3.5 Turbo and Llama 2 70b-chat few-shot translation using fuzzy matches with Google Cloud encoder-decoder MT system}
+	\label{table:language_systems}
+\end{table}
+
+
+When assessing GPT-3.5 Turbo's performance, it becomes evident that its zero-shot translation achieves moderate BLEU scores, yet it faces challenges in terms of CHRF and TER metrics. These observations hint at potential difficulties in character-level alignment and overall fluency. However, the introduction of fuzzy matches into the adaptation process, both in 2-shot and 5-shot configurations, results in notable improvements across all three metrics. 
+
+Llama 2 70b-chat exhibits noteworthy performance across the board. Even in its zero-shot configuration, it performs on par with the Google API Cloud and GPT 3.5 Turbo, underlining its effectiveness without extensive fine-tuning. However, the true strength of Llama emerges during adaptation, especially in the 2-shot and 5-shot scenarios. These adaptations result in substantial improvements across BLEU, CHRF, and TER metrics. The 5-shot adaptation, in particular, stands out with remarkable BLEU and CHRF scores, indicating its capability to produce highly fluent and accurate translations.
+
+A significant observation is the competitive edge displayed by Llama 2 70b-chat, particularly when employing the 5-shot adaptation with machine translation (MT). In this configuration, Llama surpasses GPT-3.5 Turbo in both BLEU and CHRF scores, showcasing its superior fluency and accuracy in translations. This suggests that Llama's architecture and fine-tuning approach are particularly well-suited for few-shot translation tasks, especially when integrated with machine translation.
+
+\section{Conclusion}
+In this work, we conducted several experiments to assess the performance of GPT-3.5 and Llama 2 70b-chat with adaptive MT using fuzzy matches in the challenging domain of English-to-Arabic subtitle translation. Our findings underscore the significant advancements made possible by large-scale language models (LLMs) in the realm of in-context learning.
+
+Through a comprehensive exploration of various strategies, including the utilization of the FAISS index for fuzzy match selection, we have showcased that LLMs can outperform traditional encoder-decoder MT models, particularly in scenarios where real-time adaptation for subtitles is imperative.
+
+Furthermore, our study has shed light on the potential benefits of integrating diverse MT techniques, encompassing both robust encoder-decoder models and LLMs. This synergistic approach led to greater translation quality improvements and expands the horizons of adaptive machine translation.
+
+In conclusion, our extensive experiments and findings contribute valuable insights to the field of adaptive MT, demonstrating that GPT-3.5 and Llama 2 70b-chat, in tandem with fuzzy matching, hold tremendous promise for real-time, high-quality English-to-Arabic subtitle translation. These advancements mark a significant step forward in making subtitles more accessible and linguistically accurate, and enhancing the global accessibility of multimedia content.
+
+\section{Acknowledgements}
+I am deeply appreciative of the unwavering support, invaluable guidance, and steadfast encouragement provided by Professor Abdelhadi Soudi throughout the course of this project. His exceptional expertise and mentorship have played a pivotal role in shaping the direction and outcomes of this research endeavor.
+
+His dedication to my growth and their commitment to the pursuit of knowledge have been truly remarkable. I extend my heartfelt gratitude to Professor Abdelhadi Soudi for their profound influence on this work. Thank you for being an outstanding mentor and collaborator.
 
 % For bibtex users:
 \bibliography{ISMIRtemplate}
