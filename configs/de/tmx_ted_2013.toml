@@ -1,0 +1,25 @@
+[data]
+root = "/netscratch/mhannani/data_preparation/TED2013"
+
+tmx_file = "de-en.tmx"
+
+processed = "/netscratch/mhannani/data_preparation/TED2013/processed"
+index = "/netscratch/mhannani/data_preparation/TED2013/index"
+
+source_language = "en"
+target_language = "de"
+
+json_output = "en_de_data.json"
+faiss_path = "index/faiss_index.index"
+
+[prompting]
+source_language = "English"
+target_language = "German"
+
+[fuzzy]
+embedding_model_name = "sentence-transformers/all-MiniLM-L6-v2"
+
+[results]
+root = "results/TED2013"
+pairs_csv = "predictions.tsv"
+scores_csv = "scores.csv"

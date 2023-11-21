@@ -1,6 +1,5 @@
-import os
 import sys
-from src.preprocess.preprocessor import Preprocessor
+from src.preprocess.preprocessor import TMXPreprocessor
 from src.helpers.get import parse_toml
 from pathlib import Path
 
@@ -9,7 +8,7 @@ if __name__ == "__main__":
 
     # Check if there is at least one command-line argument
     if len(sys.argv) < 2:
-        print("Usage: python preprocess_data.py <dataset_name>")
+        print("Usage: python preprocess_data.py <dataset_name> <lang>")
 
         # quit
         sys.exit(1)
@@ -17,8 +16,11 @@ if __name__ == "__main__":
     # Get the config name from the command-line argument
     dataset_name = sys.argv[1]
 
+    # get the target language
+    language = sys.argv[2]
+
     # toml path
-    toml_path: str = Path(f"./configs/{dataset_name}.toml")
+    toml_path: str = Path(f"./configs/{language}/{dataset_name}.toml")
     
     # Ensure the toml file exists
     if not toml_path.exists():
@@ -30,17 +32,20 @@ if __name__ == "__main__":
     # parsing toml
     config = parse_toml(toml_path)
 
-    # source_lang_data
-    source_lang_data: str = Path(config['data']['raw']) / config['data']['source_language']
-
-    # target_lang_data
-    target_lang_data: str = Path(config['data']['raw']) / config['data']['target_language']
+    # tmux_file_path
+    tmux_file_path: str = Path(config['data']['root']) / Path(config['data']['tmx_file'])
 
     # output_json_file
     output_json_file: str = Path(config['data']['processed']) / config['data']['json_output']
 
+    # source langugae
+    source_language: str = config['data']['source_language']
+
+    # target language
+    target_language: str = config['data']['target_language']
+
     # preprocessor
-    preprocessor: Preprocessor = Preprocessor(source_lang_data, target_lang_data, output_json_file)
+    preprocessor: TMXPreprocessor = TMXPreprocessor(tmux_file_path, output_json_file, source_language, target_language)
 
     # preprocessing
     preprocessor.fire()

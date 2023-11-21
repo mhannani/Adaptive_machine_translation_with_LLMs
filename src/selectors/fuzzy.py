@@ -124,7 +124,7 @@ class Fuzzy:
             faiss.write_index(self.index, self.faiss_path.as_posix())
 
 
-    def get_top_k(self, sentence: str, distance_threshold: float = 0.8, k: int = 5) -> List[dict]:
+    def get_top_k(self, sentence: str, distance_threshold: float = 0.0, k: int = 5) -> List[dict]:
         """
         Get top_k fuzzy matches
 
@@ -145,11 +145,10 @@ class Fuzzy:
         input_embedding = input_embedding.reshape(1, -1)
 
         # Perform similarity search using FAISS
-        distances, indices = self.index.search(input_embedding, k)
+        distances, indices = self.index.search(input_embedding, k + 1)
 
         # distances
         distances = distances[0]
-
         # indices
         indices = indices[0]
 
@@ -163,13 +162,13 @@ class Fuzzy:
         filtered_distances = distances[non_zero_indices]
         filtered_indices = indices[non_zero_indices]
 
-        # sentence itself
+        # # sentence itself
         sentence_itself_distance = distances[actual_sentence_index]
         sentence_itself_indices = indices[actual_sentence_index]
 
-        # Filter results based on the threshold
-        similar_indices = filtered_indices[filtered_distances < distance_threshold]
-        similar_distances = filtered_distances[filtered_distances < distance_threshold]
+        # # Filter results based on the threshold
+        # similar_indices = filtered_indices[filtered_distances < distance_threshold]
+        # similar_distances = filtered_distances[filtered_distances < distance_threshold]
 
         # Retrieve the similar sentences and additional data from the dataset
-        return [{"key": idx, "score": score, **self.json_data[idx]} for idx, score in zip(sentence_itself_indices, sentence_itself_distance)], [{"key": idx, "score": score, **self.json_data[idx]} for idx, score in zip(similar_indices, similar_distances)]
+        return [{"key": idx, "score": score, **self.json_data[idx]} for idx, score in zip(sentence_itself_indices, sentence_itself_distance)], [{"key": idx, "score": score, **self.json_data[idx]} for idx, score in zip(filtered_indices, filtered_distances)]

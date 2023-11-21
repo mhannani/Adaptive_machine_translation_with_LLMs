@@ -1,6 +1,6 @@
 import openai
 from typing import List
-from tenacity import retry, stop_after_attempt, wait_fixed, wait_random_exponential
+from tenacity import retry, stop_after_attempt, wait_fixed
 from langchain.schema.messages import AIMessage
 from langchain.chat_models import ChatOpenAI
 
@@ -10,7 +10,7 @@ class GPT:
     GPT as translator model
     """
 
-    def __init__(self, config, openai_api_key: str, model: str = 'gpt-4', temperature: float = 0.3, max_tokens: int = 50) -> None:
+    def __init__(self, config, openai_api_key: str, model_name: str = 'gpt-3.5-turbo', temperature: float = 0.3, max_tokens: int = 50) -> None:
         """
         Class constructor for GPT model as API.
 
@@ -37,7 +37,7 @@ class GPT:
         self.openai_api_key: str = openai_api_key
 
         # model name
-        self.model: str = model
+        self.model_name: str = model_name
 
         # temperator
         self.temperature: float = temperature
@@ -52,7 +52,7 @@ class GPT:
         self.openai_api_key = self.openai_api_key
 
         # instantiate the chatOpenAI class
-        self.chat_llm = ChatOpenAI(openai_api_key = self.openai_api_key, model_name = self.model, temperature = self.temperature)
+        self.chat_llm = ChatOpenAI(openai_api_key = self.openai_api_key, model_name = self.model_name, temperature = self.temperature)
 
     def translate(self, chat_prompt: List) -> AIMessage:
         """
@@ -69,7 +69,7 @@ class GPT:
 
         return llm_output.content
 
-    @retry(wait=wait_random_exponential(min=2, max=60), stop=stop_after_attempt(6))
+    @retry(wait=wait_fixed(20), stop=stop_after_attempt(6))
     def translate_with_tenacity(self, chat_prompt: List) -> AIMessage:
         """
         Translate sentence using Chain-of-thoughts with Langchain
