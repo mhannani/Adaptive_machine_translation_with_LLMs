@@ -5,7 +5,6 @@
 Make prediction for all subtiles present in the data source 
 and store predictions for persistence and avoiding cost of model 
 invocation for every experiment conducted.
-
 """
 
 import csv
@@ -59,8 +58,7 @@ def main(dataset_name: str, lang: str, model_name: str, prefix: str, k_fm: int, 
     load_dotenv()
 
     # OpenAI API key
-    openai_api_key: str = "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" 
-    # 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 # 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
+    openai_api_key: str = os.getenv("OPENAI_API_KEY")
 
     # parsing toml
     config = parse_toml(toml_path)
