@@ -1,16 +1,16 @@
 [data]
-root = "/netscratch/mhannani/data_preparation/TICO_19"
+root = "/netscratch/mhannani/data_preparation/TED2013"
 
 tmx_file = "en-fr.tmx"
 
-processed = "/netscratch/mhannani/data_preparation/TICO_19/processed"
-index = "/netscratch/mhannani/data_preparation/TICO_19/index"
+processed = "/netscratch/mhannani/data_preparation/TED2013/processed"
+index = "/netscratch/mhannani/data_preparation/TED2013/index"
 
 source_language = "en"
 target_language = "fr"
 
 json_output = "en_fr_data.json"
-faiss_path = "index/faiss_index_en_fr.index"
+faiss_path = "index/en-fr.faiss_index.index"
 json_path_deepl = "index/deepl_en_fr.json"
 
 [prompting]
@@ -24,6 +24,6 @@ deepl = "5ee9dc44-48e6-1cdb-dd91-208d76668010"
 embedding_model_name = "sentence-transformers/all-MiniLM-L6-v2"
 
 [results]
-root = "/netscratch/mhannani/data_preparation/results/TICO_19"
+root = "/netscratch/mhannani/data_preparation/results/TED2013"
 pairs_csv = "predictions.tsv"
 scores_csv = "scores.csv"

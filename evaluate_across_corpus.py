@@ -1,29 +1,34 @@
-import json
-import os
 from pathlib import Path
 import sys
-from dotenv import load_dotenv
-import openai
-from src.evaluation.eval import Evaluator
 from src.helpers.get import parse_toml
-from src.selectors.fuzzy import Fuzzy
 from src.utils.corpus_eval import evaluate_corpus
+import click
 
+@click.command(context_settings=dict(help_option_names=['-h', '--help'], max_content_width=120))
+@click.argument('dataset_name', type=str)
+@click.argument('lang', type=str)
+# @click.argument('model_name', type=str)
+@click.argument('tsv_filename', type=str)
 
-if __name__ == "__main__":
+def main(dataset_name: str, lang: str, tsv_filename: str):
+    """
+    Evaluate experiments
 
-    # Check if there is at least one command-line argument
-    if len(sys.argv) < 2:
-        print("Usage: python preprocess_data.py <dataset_name>")
+    :param dataset_name str
+        Dataset name
+    :param lang str
+        Target Language
+    :param tsv_filename str
+        The TSV filename
 
-        # quit
-        sys.exit(1)
+    :param k_fm int
+        The Fuzzy matches to use for the experiment
+    """
 
-    # Get the config name from the command-line argument
-    dataset_name = sys.argv[1]
+    print(f'!@@ Dataset: {dataset_name}, Language: {lang}, tsv_filename: {tsv_filename} @@!')
 
     # toml path
-    toml_path: str = Path(f"./configs/{dataset_name}.toml")
+    toml_path: str = Path(f"./configs/{lang}/{dataset_name}.toml")
     
     # Ensure the toml file exists
     if not toml_path.exists():
@@ -35,8 +40,10 @@ if __name__ == "__main__":
     # parsing toml
     config = parse_toml(toml_path)
 
-    evaluate_corpus(config)
+    print(config)
+    # evaluate
+    evaluate_corpus(config, tsv_filename)
 
-    
 
-        
+if __name__ == "__main__":
+    main()  

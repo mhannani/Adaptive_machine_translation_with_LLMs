@@ -1,10 +1,10 @@
 [data]
-root = "/netscratch/mhannani/data_preparation/TED2013"
+root = "/netscratch/mhannani/data_preparation/TED2020"
 
 tmx_file = "ar-en.tmx"
 
-processed = "/netscratch/mhannani/data_preparation/TED2013/processed"
-index = "/netscratch/mhannani/data_preparation/TED2013/index"
+processed = "/netscratch/mhannani/data_preparation/TED2020/processed"
+index = "/netscratch/mhannani/data_preparation/TED2020/index"
 
 source_language = "en"
 target_language = "ar"
@@ -20,6 +20,6 @@ target_language = "Arabic"
 embedding_model_name = "sentence-transformers/all-MiniLM-L6-v2"
 
 [results]
-root = "/netscratch/mhannani/data_preparation/results/TED2013"
+root = "results/TED2020"
 pairs_csv = "predictions.tsv"
 scores_csv = "scores.csv"

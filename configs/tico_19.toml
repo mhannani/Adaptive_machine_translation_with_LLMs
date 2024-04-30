@@ -16,7 +16,7 @@ target_language = "Arabic"
 embedding_model_name = "sentence-transformers/all-MiniLM-L6-v2"
 
 [results]
-root = "results/tico_19"
+root = "/netscratch/mhannani/data_preparation/results/TICO_19/fr"
 pairs_csv = "three_pairs.tsv"
 scores_csv = "scores.csv"
 

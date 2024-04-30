@@ -1,13 +1,15 @@
 from typing import List
 from langchain.prompts.chat import SystemMessagePromptTemplate, HumanMessagePromptTemplate, ChatPromptTemplate, AIMessagePromptTemplate
 
+from src.translators.deepl_en_de import DeepL
+
 
 class Prompt:
     """
     LLM Prompt construction class
     """
 
-    def __init__(self, config: object, fuzzy_matches: List) -> None:
+    def __init__(self, config: object, fuzzy_matches: List, deepl: DeepL = None) -> None:
         """
         Prompt class constructor
 
@@ -32,6 +34,9 @@ class Prompt:
         # fuzzy_match
         self.fuzzy_matches: List = fuzzy_matches
 
+        # DeepL
+        self.deepl = deepl
+
     def create_gpt_prompt(self, request_sentence: str) -> str:
         """
         Create a prompt given source and target languages for GPT model
@@ -43,7 +48,7 @@ class Prompt:
         """
 
         # assisstant template
-        template = "Act like a good translator from {source_language} subtitles to {target_language} subtitles. Translate the following {source_language} sentence into Arabic"
+        template = "Act like a good translator from {source_language} subtitles to {target_language} subtitles. Translate the following {source_language} sentence into {target_language}"
 
         # create system message
         system_message_prompt = SystemMessagePromptTemplate.from_template(
@@ -59,7 +64,7 @@ class Prompt:
             source_sentence = match["source_sentence"]
 
             # target sentence
-            target_sentence = match["target_sentence"]
+            target_sentence = self.deepl.translate(source_sentence) if self.deepl is not None else match["target_sentence"]
 
             # human message template
             human_message_template = f"{source_sentence}"

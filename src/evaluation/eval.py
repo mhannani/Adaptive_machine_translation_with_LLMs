@@ -35,7 +35,7 @@ class Evaluator:
         """
 
         # Calculate the BLEU score
-        blue_score = sacrebleu.corpus_bleu(self.predicted_sentence, [self.reference_sentence])
+        blue_score = sacrebleu.corpus_bleu(self.predicted_sentence, [self.reference_sentence], tokenize='flores200')
 
         return blue_score.score
     

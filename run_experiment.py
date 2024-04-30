@@ -25,9 +25,11 @@ import click
 @click.argument('dataset_name', type=str)
 @click.argument('lang', type=str)
 @click.argument('model_name', type=str)
+@click.argument('prefix', type=str, default = "")
 @click.argument('k_fm', type=int)
+@click.argument('continue_exp', type=int, default = -1)
 
-def main(dataset_name: str, lang: str, model_name: str, k_fm: int):
+def main(dataset_name: str, lang: str, model_name: str, prefix: str, k_fm: int, continue_exp: int):
     """
     Run Experimentation on dataset, language and with `km` fuzzy matches.
 
@@ -37,6 +39,10 @@ def main(dataset_name: str, lang: str, model_name: str, k_fm: int):
         Target Language
     :param model_name str
         The OpenAI model name
+    :prefix str
+        Prefix the experiment name
+    :param continue_exp int
+        From which sentence to continue the experiment
     
     :param k_fm int
         The Fuzzy matches to use for the experiment
@@ -51,7 +57,7 @@ def main(dataset_name: str, lang: str, model_name: str, k_fm: int):
     load_dotenv()
 
     # OpenAI API key
-    openai_api_key: str = "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" 
+    openai_api_key: str = "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" 
     # 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 # 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
 
     # parsing toml
@@ -77,7 +83,7 @@ def main(dataset_name: str, lang: str, model_name: str, k_fm: int):
     result_root = Path(config['results']['root'])
 
     # CSV path
-    pairs_csv_path = result_root / f"exp.fm_{k_fm}.model_{gpt.model_name}.temp_{gpt.temperature}.dataset_{dataset_name}.{config['results']['pairs_csv']}"
+    pairs_csv_path = result_root / lang / f"{prefix}_exp.lang_{lang}_fm_{k_fm}.model_{gpt.model_name}.temp_{gpt.temperature}.dataset_{dataset_name}.{config['results']['pairs_csv']}"
 
     # create dataset results root if not exists already
     pairs_csv_path.parent.mkdir(parents=True, exist_ok=True)
@@ -91,7 +97,7 @@ def main(dataset_name: str, lang: str, model_name: str, k_fm: int):
         # csv_writer.writerow(['Source Sentence', 'Target Sentence', 'Predicted Sentence'])
 
         # Through all the corpus
-        for data in tqdm(json_data, desc=f"Discovering corpus", ncols=100):
+        for data in tqdm(json_data[continue_exp + 1:6200], desc=f"Discovering corpus", ncols=100):
 
             # source sentence
             source_sentence = data["source_sentence"]
@@ -115,11 +121,11 @@ def main(dataset_name: str, lang: str, model_name: str, k_fm: int):
             # write current row
             csv_writer.writerow([source_sentence, target_sentence, predicted_sentence])
 
+            # Ensure the data is written to the file after each iteration
+            csv_file.flush()
+
 
 if __name__ == "__main__":
 
     # call the main function
     main()
-
-
-    
